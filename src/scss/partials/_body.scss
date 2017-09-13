@@ -18,3 +18,12 @@ body {
 	background-color: $light;
 	color: $dark;
 }
+
+.body--link {
+	color: $brand;
+	text-decoration: none;
+	font-weight: 500;
+	&:active, &:hover {
+		text-decoration: underline;
+	}
+}

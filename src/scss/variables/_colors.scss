@@ -1,6 +1,5 @@
-$header: #F9681F;
-$header-hightlight: $header;
-$brand: #900C3F;
+$header: lighten(#F9681F, 20%);
+$brand: desaturate(darken(#0C3C90, 7%), 30%);
 $link: $brand;
 $hover: #b3bf80;
 $dark: #333;

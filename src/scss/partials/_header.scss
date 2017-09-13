@@ -1,5 +1,5 @@
 .header {
-	background-color: rgba($header, 0.4);
+	background-color: $header;
 	width: 100%;
 	//padding: 2rem;
 	@include flex-row;
@@ -11,6 +11,10 @@
 	@media screen and (min-width: 1024px) {
 		justify-content: space-between;
 	}
+}
+
+.triangle {
+	display: none;
 }
 
 #menuOverlay {
@@ -49,6 +53,12 @@
 	}
 }
 
+.header__brand, .header__menu__item {
+	@include flex-column;
+	// align-items: center;
+	// justify-content: stretch;
+}
+
 .header__brand--link {
 	display: block;
 	width: fit-content;
@@ -56,17 +66,19 @@
 	font-family: $font-titles;
 	font-size: $font-size-brand;
 	line-height: 1;
-	position: relative;
-	top: 3px;
 	padding: 2rem 2rem 2rem 1rem;
 	text-decoration: none;
+	span {
+		position: relative;
+		top: 3px;
+	}
 	@media screen and (min-width: 768px) {
 		padding-left: 2rem;
 	}
 }
 
 .header__menu {
-	background-color: lighten($header, 20%);
+	background-color: $header;
 	position: fixed;
 	visibility: hidden;
 	left: 2rem;
@@ -120,4 +132,20 @@
 .header__menu--titles {
 	font-size: $font-size-menu;
 	line-height: 1;
+}
+
+.header--inverse {
+	background-color: $brand;
+	//border-bottom: 3px solid $brand;
+	color: $header;
+	& + .triangle {
+		align-self: center;
+		display: block;
+		border-left: 20px solid transparent;
+		border-right: 20px solid transparent;
+		border-top: 10px solid $brand;
+		//border-radius: 5px;
+		position: absolute;
+		top: 102px;
+	}
 }

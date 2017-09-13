@@ -12,7 +12,7 @@ const controller = {
 		const footerYear = controller.footerYear();
 		res.render('mail.hbs', {
 			footerYear: footerYear,
-			contactSelect: true
+			mailSelect: true
 		});
 	},
 	renderWordpress: (req, res) => {

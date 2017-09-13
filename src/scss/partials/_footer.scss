@@ -2,13 +2,13 @@
 	@include flex-row;
 	justify-content: flex-end;
 	align-items: center;
-	background-color: $dark;
+	background-color: $brand;
 }
 
 .footer--item {
 	padding: 0.5rem 1rem;
 	text-decoration: none;
-	color: lighten($header, 20%);
+	color: $header;
 	@media screen and (min-width: 1500px) {
 		padding: 1rem 2rem;
 	}

@@ -2,25 +2,31 @@
 	<div id="menuOverlay"></div>
 	<i class="fa fa-bars header__mobile__toggle" id="menuToggle"></i>
 	<div class="header__brand">
-		<a href="/" class="header__brand--link">
-			Studio Riehl
+		<a href="/" class="header__brand--link {{#if brandSelect}}header--inverse{{/if}}">
+			<span>
+				Studio Riehl
+			</span>
 		</a>
+		<div class="triangle"></div>
 	</div>
 	<ul class="header__menu" id="headerMenu">
 		<li class="header__menu__item">
-			<a href="/full-stack" class="header__menu--link">
+			<a href="/full-stack" class="header__menu--link {{#if fullStackSelect}}header--inverse{{/if}}">
 				FULL STACK
 			</a>
+			<div class="triangle"></div>
 		</li>
 		<li class="header__menu__item">
-			<a href="/wordpress" class="header__menu--link">
+			<a href="/wordpress" class="header__menu--link {{#if wordpressSelect}}header--inverse{{/if}}">
 				WORDPRESS
 			</a>
+			<div class="triangle"></div>
 		</li>
 		<li class="header__menu__item">
-			<a href="/mail" class="header__menu--link">
+			<a href="/mail" class="header__menu--link {{#if mailSelect}}header--inverse{{/if}}">
 				<i class="fa fa-envelope-o"></i>
 			</a>
+			<div class="triangle"></div>
 		</li>
 	<!-- / .header__menu -->
 	</ul>
