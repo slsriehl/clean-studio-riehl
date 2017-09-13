@@ -1,0 +1,49 @@
+/* mixins based on based on https://codepen.io/tonystar/pen/JRLaKw by Anton Staroverov. */
+
+@mixin float-label-container {
+	display: block;
+	position: relative;
+}
+
+@mixin float-label {
+	label {
+		position: relative;
+		z-index: 50;
+		left: 1rem;
+		top: -2.75rem;
+		cursor: text;
+		//opacity: 1;
+		transition: all .2s;
+		@content;
+	}
+}
+
+@mixin float-label-input {
+	&::placeholder {
+		opacity: 1;
+		transition: all .2s;
+	}
+	&:placeholder-shown:not(:focus)::placeholder {
+			opacity: 0;
+	}
+}
+
+@mixin float-label-scaled {
+	&:placeholder-shown:not(:focus) + * {
+			font-size: 150%;
+			opacity: .5;
+			@content;
+	}
+}
+
+@mixin focused-filled-label {
+	color: $green ;
+	top: -4.75rem;
+	background-color: $light;
+	padding: 0 0.25rem;
+}
+
+@mixin focused-filled-input {
+	border-color: rgba($green, 0.5);
+	background-color: unset;
+}
