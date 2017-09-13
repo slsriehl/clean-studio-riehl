@@ -1,0 +1,21 @@
+.about {
+	padding: 2rem;
+	@media screen and (min-width: 1500px) {
+		padding: 4rem;
+	}
+}
+
+// .about--h2 {
+// 	font-size: $font-size-h2;
+// 	font-family: $font-titles;
+// 	color: $brand;
+// }
+
+.about--h3 {
+	font-size: $font-size-h3;
+	font-family: $font-titles;
+	color: $brand;
+}
+.about--p {
+	margin-bottom: 1rem;
+}
