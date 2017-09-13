@@ -1,0 +1,123 @@
+.header {
+	background-color: rgba($header, 0.4);
+	width: 100%;
+	//padding: 2rem;
+	@include flex-row;
+	align-items: center;
+	justify-content: flex-start;
+	@media screen and (max-width: 400px) {
+		justify-content: center;
+	}
+	@media screen and (min-width: 1024px) {
+		justify-content: space-between;
+	}
+}
+
+#menuOverlay {
+	position: fixed;
+	visibility: hidden;
+	left: 0;
+	top: 0;
+	z-index: -1;
+	height: 100vh;
+	width: 100%;
+	background-color: rgba($dark, 0.7);
+	overflow: auto;
+	@media screen and (min-width: 812px) {
+		display: none;
+	}
+}
+
+.header__mobile__toggle {
+	font-size: $font-size-brand - 5px;
+	position: relative;
+	top: 1px;
+	color: $brand;
+	padding: 2rem 1rem 2rem 2rem;
+	@media screen and (min-width: 768px) {
+		display: none;
+	}
+}
+
+.header__brand {
+	@media screen and (min-width: 768px) and (max-width: 1023px) {
+		flex-grow: 1;
+		//padding: 0 2rem 0 0;
+	}
+	@media screen and (min-width: 1500px) {
+		margin-left: 3rem;
+	}
+}
+
+.header__brand--link {
+	display: block;
+	width: fit-content;
+	color: $brand;
+	font-family: $font-titles;
+	font-size: $font-size-brand;
+	line-height: 1;
+	position: relative;
+	top: 3px;
+	padding: 2rem 2rem 2rem 1rem;
+	text-decoration: none;
+	@media screen and (min-width: 768px) {
+		padding-left: 2rem;
+	}
+}
+
+.header__menu {
+	background-color: lighten($header, 20%);
+	position: fixed;
+	visibility: hidden;
+	left: 2rem;
+	top: 0;
+	height: 100vh;
+	width: fit-content;
+	overflow: scroll;
+	transition: max-height 0.4s ease 0s;
+	z-index: -1;
+	list-style-type: none;
+	padding: 1.75rem 0;
+	@media screen and (min-width: 768px) {
+		@include flex-row;
+		@include between-center;
+		flex-grow: 2;
+		background-color: unset;
+		position: relative;
+		left: unset;
+		overflow: unset;
+		height: unset;
+		width: unset;
+		z-index: 10;
+		padding: 0;
+		visibility: visible;
+		font-size: unset;
+	}
+	@media screen and (min-width: 1024px) {
+		flex-grow: unset;
+		width: 655px;
+	}
+	@media screen and (min-width: 1500px) {
+		margin-right: 3rem;
+	}
+}
+
+.header__menu--link {
+	i {
+		position: relative;
+		top: -3px;
+	}
+	display: block;
+	@include flex-column;
+	@include center-center;
+	box-sizing: content-box;
+	padding: 2rem;
+	height: $font-size-brand;
+	text-decoration: none;
+	color: $dark;
+}
+
+.header__menu--titles {
+	font-size: $font-size-menu;
+	line-height: 1;
+}

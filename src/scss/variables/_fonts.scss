@@ -26,18 +26,23 @@
 /* Hilton Serif */
 @font-face {
 	font-family: 'HiltonSerif';
-	src: url('/public/webfonts/34A923_0_0.eot');
-	src: url('/public/webfonts/34A923_0_0.eot?#iefix') format('embedded-opentype'),url('/public/webfonts/34A923_0_0.woff2') format('woff2'),url('/public/webfonts/34A923_0_0.woff') format('woff'),url('/public/webfonts/34A923_0_0.ttf') format('truetype');
+	src: url('../webfonts/hilton-serif/34A923_0_0.eot');
+	src: url('../webfonts/hilton-serif/34A923_0_0.eot?#iefix') format('embedded-opentype'),url('../webfonts/hilton-serif/34A923_0_0.woff2') format('woff2'),url('../webfonts/hilton-serif/34A923_0_0.woff') format('woff'),url('../webfonts/hilton-serif/34A923_0_0.ttf') format('truetype');
 }
 
 /* Sofa Sans Hand Regular Display */
 @font-face {
 	font-family: 'SofaSansHand-RegularDP';
-	src: url('/public/webfonts/34A923_1_0.eot');
-	src: url('/public/webfonts/34A923_1_0.eot?#iefix') format('embedded-opentype'),url('/public/webfonts/34A923_1_0.woff2') format('woff2'),url('/public/webfonts/34A923_1_0.woff') format('woff'),url('/public/webfonts/34A923_1_0.ttf') format('truetype');
+	src: url('../webfonts/sofa-sans-hand/34A923_1_0.eot');
+	src: url('../webfonts/sofa-sans-hand/34A923_1_0.eot?#iefix') format('embedded-opentype'),url('../webfonts/sofa-sans-hand/34A923_1_0.woff2') format('woff2'),url('../webfonts/sofa-sans-hand/34A923_1_0.woff') format('woff'),url('../webfonts/sofa-sans-hand/34A923_1_0.ttf') format('truetype');
 }
 
 @import '../font-awesome/_font-awesome';
 
 $font-titles: 'SofaSansHand-RegularDP';
 $font-main: 'HiltonSerif';
+
+$font-size-menu: 30px;
+$font-size-brand: 40px;
+$font-size-body: 25px;
+$font-size-h2: 25px;
