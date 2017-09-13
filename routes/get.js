@@ -5,20 +5,20 @@ const router = new express.Router;
 const controller = require('../controllers/get');
 
 // one page router route
-router.get('/', function(req, res) {
+router.get('/', (req, res) => {
 	controller.renderAbout(req, res);
 });
 
-router.get('/mail', function(req, res) => {
+router.get('/mail', (req, res) => {
 	controller.renderMail(req, res);
 });
 
-router.get('/wordpress', function(req, res) => {
+router.get('/wordpress', (req, res) => {
 	controller.renderWordpress(req, res);
 
 });
 
-router.get('/full-stack', function(req, res) => {
+router.get('/full-stack', (req, res) => {
 	controller.renderFullStack(req, res);
 });
 
