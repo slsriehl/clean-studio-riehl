@@ -9,16 +9,34 @@ const controller = {
 		});
 	},
 	renderMail: (req, res) => {
-		res.render('mail.hbs');
+		const footerYear = controller.footerYear();
+		res.render('mail.hbs', {
+			footerYear: footerYear,
+			contactSelect: true
+		});
 	},
 	renderWordpress: (req, res) => {
-		res.render('wordpress.hbs');
+		const footerYear = controller.footerYear();
+		res.render('wordpress.hbs', {
+			footerYear: footerYear,
+			wordpressSelect: true
+		});
 	},
 	renderFullStack: (req, res) => {
-		res.render('full-stack.hbs');
+		const footerYear = controller.footerYear();
+		res.render('full-stack.hbs', {
+			footerYear: footerYear,
+			fullStackSelect: true
+		});
 	},
 	footerYear: () => {
-
+		const thisDate = new Date().getFullYear();
+		console.log(thisDate);
+		if(thisDate == 2017) {
+			return thisDate;
+		} else {
+			return `2017-${thisDate}`;
+		}
 	}
 }
 
