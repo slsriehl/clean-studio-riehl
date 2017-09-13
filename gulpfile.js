@@ -31,30 +31,43 @@ var banner = ['/*!\n',
 		' */\n'
 ].join('');
 
-var reload  = browserSync.reload;
+//var reload  = browserSync.reload;
 
-gulp.task('nodemon', function (cb) {
-	var started = false;
-	return nodemon({
-		script: 'server.js'
-	}).on('start', function () {
-		// to avoid nodemon being started multiple times
-		// thanks @matthisk
-		if (!started) {
-			cb();
-			started = true;
-		}
-	});
-});
+var reloadOnChange = function() {
+	// Reloads the browser whenever node, CSS, or JS files change
+	gulp.watch(['./controllers/*.js'], [reload]);
+	gulp.watch('./routes/*.js', [reload]);
+	gulp.watch('./server.js', [reload]);
+	gulp.watch('./src/css/*.css', [reload]);
+	gulp.watch('./src/js/*.js', [reload]);
+}
 
-gulp.task('browser-sync',['nodemon'], function() {
-	browserSync.init(null, {
-		proxy: "http://localhost:5000",
-		files: ["public/**/*.*"],
-		browser: "google chrome",
-		port: 7000,
-	});
-});
+// gulp.task('nodemon', function () {
+// 	var started = false;
+// 	return nodemon({
+// 		script: 'server.js'
+// 	})
+// 	//.on('start', function () {
+// 	// 	// to avoid nodemon being started multiple times
+// 	// 	// thanks @matthisk
+// 	// 	if (!started) {
+// 	// 		cb();
+// 	// 		started = true;
+// 	// 	}
+// 	// })
+// 	.on('exit', function () {
+// 		process.exit();
+// 	});
+// });
+
+// gulp.task('browser-sync',['nodemon'], function() {
+// 	browserSync.init(null, {
+// 		proxy: "http://localhost:5000",
+// 		files: ["public/**/*.*"],
+// 		browser: "google chrome",
+// 		port: 7000,
+// 	});
+// });
 
 // Compile scss files from /scss into /css
 gulp.task('compile-concat-scss', function() {
@@ -62,7 +75,14 @@ gulp.task('compile-concat-scss', function() {
 		.pipe(sass())
 		.pipe(concat('styles.css'))
 		.pipe(header(banner))
-		.pipe(gulp.dest('./src/css'))
+		.pipe(gulp.dest('./public/css'))
+});
+
+gulp.task('concat-js', function() {
+	return gulp.src('./src/js/pieces/*.js')
+		.pipe(concat('index.js'))
+		.pipe(header(banner))
+		.pipe(gulp.dest('./public/js'))
 });
 
 gulp.task('minify-css', function() {
@@ -81,25 +101,15 @@ gulp.task('minify-js', function() {
 });
 
 // dev task to compile and reload in development
-gulp.task('dev', ['browser-sync', 'compile-concat-scss', 'compile-concat-coffee'], function() {
+gulp.task('dev', [/* 'browser-sync', */'compile-concat-scss', 'concat-js'], function() {
 		gulp.watch('./src/scss/*/*.scss', ['compile-concat-scss']);
-		gulp.watch('./src/coffee/*.coffee', ['compile-concat-coffee']);
-		// Reloads the browser whenever PHP, CSS, or JS files change
-		gulp.watch(['./*.php'], [reload]);
-		gulp.watch('./php/*.php', [reload]);
-		gulp.watch('index.php', [reload]);
-		gulp.watch('./src/css/*.css', [reload]);
-		gulp.watch('./src/js/*.js', [reload]);
+		gulp.watch('./src/js/pieces/*.js', ['concat-js']);
+		//reloadOnChange();
 });
 
 //production task to compile, minify, and reload
-gulp.task('prod', ['browser-sync','compile-concat-scss', 'compile-concat-coffee', 'minify-js', 'minify-css'], function() {
+gulp.task('prod', [/* 'browser-sync',*/'compile-concat-scss', 'concat-js', 'minify-js', 'minify-css'], function() {
 		gulp.watch('./src/scss/*/*.scss', ['compile-concat-scss', 'minify-css']);
-		gulp.watch('./src/coffee/*/*.coffee', ['compile-concat-coffee', 'minify-js']);
-		// Reloads the browser whenever PHP, CSS, or JS files change
-		gulp.watch(['./*.php'], [reload]);
-		gulp.watch('./php/*.php', [reload]);
-		gulp.watch('index.php', [reload]);
-		gulp.watch('./src/css/*.css', [reload]);
-		gulp.watch('./src/js/*.js', [reload]);
+		gulp.watch('./src/js/pieces/*.js', ['concat-js', 'minify-js']);
+		//reloadOnChange();
 });
