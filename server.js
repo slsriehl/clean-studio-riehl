@@ -7,12 +7,11 @@ const express         = require('express'),
       logger          = require('morgan'),
       app             = express();
 
-app.use(logger("combined"));
+app.use(logger("dev"));
 app.use(bodyParser.urlencoded({
   extended: false
 }));
 app.use(bodyParser.json());
-app.use(cookieParser());
 app.use(express.static("./public"));
 
 // ++++++ Handlebars templating engine ++++++
