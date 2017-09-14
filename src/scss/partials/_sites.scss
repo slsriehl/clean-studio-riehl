@@ -1,0 +1,74 @@
+.section__sites {
+	//box-sizing: content-box;
+	@include flex-wrap;
+	justify-content: center;
+	@media screen and (min-width: 806px + (11 * $font-size-body)) {
+		justify-content: space-around;
+	}
+}
+
+.site__container {
+	width: 406px + ($font-size-body);
+	@include flex-column;
+	align-items: center;
+	padding: 1rem;
+	margin: 1rem;
+	background-color: lighten($dark, 60%);
+}
+
+.site__img {
+	@include site-img;
+	border: none;
+	margin-bottom: 1rem;
+	.site__img--img {
+		z-index: 100;
+		@include site-img;
+		border: 3px solid $brand;
+	}
+	.site__img--overlay {
+		@include flex-column;
+		@include around-center;
+		@include site-img;
+		//visibility: hidden;
+		z-index: 150;
+		width: 380px;
+		height: 380px;
+		position: relative;
+		top: -403px;
+		left: 10px;
+		background-color: rgba($brand, 0.9);
+	}
+}
+
+.site--link {
+	color: $header;
+	text-decoration: none;
+	font-size: $font-size-brand;
+}
+
+.site--name {
+	font-size: $font-size-h2;
+}
+
+.site--info {
+
+}
+
+.site--beta {
+	color: darken($header, 10%);
+}
+
+.site--more {
+	display: none;
+}
+
+.site--more--p {
+
+}
+
+.triangle-border {
+
+}
+.triangle-sites {
+
+}
