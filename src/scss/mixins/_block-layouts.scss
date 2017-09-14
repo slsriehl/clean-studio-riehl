@@ -9,6 +9,12 @@
 	flex-direction: row;
 }
 
+@mixin flex-wrap {
+	display: flex;
+	flex-wrap: wrap;
+	flex-direction: row;
+}
+
 @mixin between-center {
 	justify-content: space-between;
 	align-items: center;
@@ -36,4 +42,10 @@
 @mixin between-end {
 	justify-content: space-between;
 	align-items: flex-end;
+}
+
+@mixin site-img {
+	width: 400px;
+	height: 400px;
+	border-radius: 50%;
 }
