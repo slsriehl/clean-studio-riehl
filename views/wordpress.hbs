@@ -1,0 +1,16 @@
+<div class="section section__sites">
+{{#each sites}}
+	<div class="site__container">
+		<div class="site__img">
+			<img src="{{imgPath}}" class="site__img--img" />
+			<div class="site__img--overlay">
+				<a class="site--link" href="{{strictUrl}}" target="_blank">
+					Go&nbsp;<i class="fa fa-angle-double-right"></i>
+				</a>
+			</div>
+		</div>
+		<span class="site--name">{{siteName}}</span>
+		<span class="site--info">{{siteYear}}</span>
+	</div>
+{{/each}}
+</div>

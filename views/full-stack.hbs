@@ -1,0 +1,46 @@
+<div class="section section__sites">
+{{#each sites}}
+	<div class="site__container">
+		<div class="site__img">
+			<img src="{{imgPath}}" class="site__img--img" />
+			<div class="site__img--overlay">
+				<a class="site--link" href="{{strictUrl}}" target="_blank">
+					go&nbsp;<i class="fa fa-angle-double-right"></i>
+				</a>
+				{{#if githubUrl}}
+					<a class="site--link" href="{{githubUrl}}" target="_blank">
+						<i class="fa fa-github"></i>
+					</a>
+				{{/if}}
+				{{#if more}}
+					<a class="site--link moreToggle">
+						more&nbsp;<i class="fa fa-angle-double-down"></i>
+					</a>
+				{{/if}}
+			</div>
+		</div>
+		<h2 class="site--name">{{siteName}}</h2>
+		<span class="site--info">
+			{{technologies}}
+		</span>
+		<span class="site--info">
+			{{siteYear}}
+			{{#if beta}}
+				<span class="site--beta">
+					beta
+				</span>
+			{{/if}}
+		</span>
+
+		<div class="triangle-border"></div>
+		<div class="triangle-sites"></div>
+	</div>
+	{{#if more}}
+		<div class="site--more">
+			<p class="site--more--p">
+				{{more}}
+			</p>
+		</div>
+		{{/if}}
+{{/each}}
+</div>
