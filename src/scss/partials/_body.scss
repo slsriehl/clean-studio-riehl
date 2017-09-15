@@ -12,11 +12,28 @@ html {
 
 body {
 	width: 100%;
+	min-height: 100vh;
+	//max-height: 100%;
+	//height: fit-content;
 	font-family: $font-main;
 	font-size: $font-size-body;
 	line-height: 1.5;
 	background-color: $light;
 	color: $dark;
+	// display: flex;
+	// flex-direction: column;
+	//flex-wrap: wrap;
+}
+
+.page-content {
+	width: 100%;
+	position: relative;
+	top: 104px;
+	//min-height: calc(100vh - 61px);
+	@media screen and (min-width: 1500px) {
+		//min-height: calc(100vh - 88px);
+		top: 164px;
+	}
 }
 
 .body--link {
@@ -29,8 +46,10 @@ body {
 }
 
 .section {
+
 	padding: 2rem;
 	@media screen and (min-width: 1500px) {
+
 		padding: 4rem;
 	}
 }
