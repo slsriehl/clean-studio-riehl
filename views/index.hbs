@@ -1,30 +1,98 @@
 <div class="section">
+	<div class="about">
+		<div class="about__cont">
+			<p class="about--p">
+				... is a versatile woman-owned full-stack web development outfit based in Austin, Texas.
+			</p>
+			<p class="about--p">
+				We handle anything from simple recognition sites to full custom sites with login systems featuring graduated privileges, large databases, and servers that handle custom functions, such as PDFing, emailing, payment integration, automated invoicing, and more.
+			</p>
+			<p class="about--p">
+				We can handle all aspects of development from design to writing code, deployment, ongoing support, and further updates.  All our sites are mobile-optimized and include security measures.  We can also do search engine optimization.
+			</p>
+			<h3 class="about--h3">
+				Collaborate with us!
+			</h3>
+			<p class="about--p">
+				We love to collaborate with marketing agencies, designers, other developers, and citizen coders who want to take their sites to the next level.  Most of our services are available for hire as part of a larger project managed by a partner.  We're happy to participate as full team members, using common collaboration tools such as Github, digital Kanban boards, chat clients, and more.
+			</p>
 
-	<p class="about--p">
-		... is a versatile woman-owned full-stack web development outfit based in Austin, Texas.
-	</p>
-	<p class="about--p">
-		We handle anything from simple recognition sites to full custom sites with login systems featuring graduated privileges, large databases, and servers that handle custom functions, such as PDFing, emailing, payment integration, automated invoicing, and more.
-	</p>
-	<p class="about--p">
-		We can handle all aspects of development from design to writing code, deployment, ongoing support, and further updates.  All our sites are mobile-optimized and include security measures.  We can also do search engine optimization.
-	</p>
-	<h3 class="about--h3">
-		Collaborate with us!
-	</h3>
-	<p class="about--p">
-		We love to collaborate with marketing agencies, designers, other developers, and citizen coders who want to take their sites to the next level.  Most of our services are available for hire as part of a larger project managed by a partner.  We're happy to participate as full team members, using common collaboration tools such as Github, digital Kanban boards, chat clients, and more.
-	</p>
+			<h3 class="about--h3">
+				<a href="/mail" class="body--link">
+					<i class="fa fa-envelope-o"></i>
+				</a>
+				<span>
+					&nbsp;Contact us to tell us about your project and request a quote.
+				</span>
+			</h3>
+		</div>
 
-	<h3 class="about--h3">
-		<a href="/mail" class="body--link">
-			<i class="fa fa-envelope-o"></i>
-		</a>
-		<span>
-			&nbsp;Contact us to tell us about your project and request a quote.
-		</span>
-	</h3>
+	<!-- / .about -->
+	</div>
+	<div class="section section__sites">
+	{{#each fullStackSites}}
+		<div class="site__container">
+			<div class="site__img">
+				<img src="{{imgPath}}" class="site__img--img" />
+				<div class="site__img--overlay">
+					<a class="site--link" href="{{strictUrl}}" target="_blank">
+						go&nbsp;<i class="fa fa-angle-double-right"></i>
+					</a>
+					{{#if githubUrl}}
+						<a class="site--link" href="{{githubUrl}}" target="_blank">
+							<i class="fa fa-github"></i>
+						</a>
+					{{/if}}
+					{{#if more}}
+						<a class="site--link moreToggle">
+							more&nbsp;<i class="fa fa-angle-double-down"></i>
+						</a>
+					{{/if}}
+				</div>
+			</div>
+			<div class="site__info">
+				<h2 class="site--name">{{siteName}}</h2>
+				<p class="site--info">
+					{{technologies}}
+				</p>
+				<p class="site--info">
+					{{siteYear}}
+					{{#if beta}}
+						<span class="site--beta">
+							beta
+						</span>
+					{{/if}}
+				</p>
+			</div>
 
-
-<!-- / .about -->
+			<div class="triangle-border"></div>
+			<div class="triangle-sites"></div>
+		</div>
+		{{#if more}}
+			<div class="site--more">
+				<p class="site--more--p">
+					{{more}}
+				</p>
+			</div>
+			{{/if}}
+	{{/each}}
+	</div>
+	<div class="section section__sites">
+	{{#each wordpressSites}}
+		<div class="site__container">
+			<div class="site__img">
+				<img src="{{imgPath}}" class="site__img--img" />
+				<div class="site__img--overlay">
+					<a class="site--link" href="{{strictUrl}}" target="_blank">
+						Go&nbsp;<i class="fa fa-angle-double-right"></i>
+					</a>
+				</div>
+			</div>
+			<div class="site__info">
+				<p class="site--name">{{siteName}}</p>
+				<p class="site--info">{{siteYear}}</p>
+			</div>
+		</div>
+	{{/each}}
+	</div>
 </div>
