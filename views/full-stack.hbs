@@ -19,18 +19,20 @@
 				{{/if}}
 			</div>
 		</div>
-		<h2 class="site--name">{{siteName}}</h2>
-		<span class="site--info">
-			{{technologies}}
-		</span>
-		<span class="site--info">
-			{{siteYear}}
-			{{#if beta}}
-				<span class="site--beta">
-					beta
-				</span>
-			{{/if}}
-		</span>
+		<div class="site__info">
+			<h2 class="site--name">{{siteName}}</h2>
+			<p class="site--info">
+				{{technologies}}
+			</p>
+			<p class="site--info">
+				{{siteYear}}
+				{{#if beta}}
+					<span class="site--beta">
+						beta
+					</span>
+				{{/if}}
+			</p>
+		</div>
 
 		<div class="triangle-border"></div>
 		<div class="triangle-sites"></div>
