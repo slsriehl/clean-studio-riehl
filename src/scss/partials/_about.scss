@@ -1,5 +1,17 @@
+.about {
+	@media screen and (min-width: 1500px) {
+		display: flex;
+		@include center-center;
+	}
+}
 
-
+.about__cont {
+	@media screen and (min-width: 1500px) {
+		width: 1300px;
+		background-color: $header-light;
+		padding: 2rem;
+	}
+}
 // .about--h2 {
 // 	font-size: $font-size-h2;
 // 	font-family: $font-titles;
@@ -10,7 +22,13 @@
 	font-size: $font-size-h3;
 	font-family: $font-titles;
 	color: $brand;
+	@media screen and (min-width: 1500px) {
+		font-size: 2.5 * $font-size-h3;
+	}
 }
 .about--p {
 	margin-bottom: 1rem;
+	@media screen and (min-width: 1500px) {
+		font-size: 2.5 * $font-size-body;
+	}
 }

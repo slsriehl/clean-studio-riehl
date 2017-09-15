@@ -2,60 +2,90 @@
 	//box-sizing: content-box;
 	@include flex-wrap;
 	justify-content: center;
+	//align-items: center;
 	@media screen and (min-width: 806px + (11 * $font-size-body)) {
 		justify-content: space-around;
 	}
 }
 
 .site__container {
-	width: 406px + ($font-size-body);
+	width: 400px + ($font-size-body);
 	@include flex-column;
 	align-items: center;
 	padding: 1rem;
 	margin: 1rem;
-	background-color: lighten($dark, 60%);
+	background-color: $header-light;
+	@media screen and (min-width: 1500px) {
+		width: 400px + (2 * $font-size-body);
+		padding: 2rem;
+	}
 }
 
 .site__img {
-	@include site-img;
+
 	border: none;
 	margin-bottom: 1rem;
 	.site__img--img {
-		z-index: 100;
-		@include site-img;
-		border: 3px solid $brand;
+		//z-index: 100;
+		width: 400px;
+		height: 400px;
+		border-radius: 50%;
 	}
 	.site__img--overlay {
-		@include flex-column;
+		@include flex-row;
 		@include around-center;
-		@include site-img;
-		//visibility: hidden;
-		z-index: 150;
-		width: 380px;
-		height: 380px;
-		position: relative;
-		top: -403px;
-		left: 10px;
-		background-color: rgba($brand, 0.9);
+		margin-top: 1rem;
+		padding: 1rem;
+		background-color: $light;
+		.site--link {
+			color: $dark;
+			text-decoration: none;
+			font-size: $font-size-brand;
+		}
+		@media screen and (min-width: 826px) {
+			@include flex-column;
+			@include around-center;
+			border-radius: 50%;
+			visibility: hidden;
+			width: 380px;
+			height: 380px;
+			position: relative;
+			top: -420px;
+			left: 10px;
+			background-color: rgba($brand, 0.9);
+			.site--link {
+				color: $header;
+				font-size: 1.5 * $font-size-brand;
+				line-height: 1;
+				i {
+					line-height: 1;
+				}
+			}
+		}
 	}
 }
 
-.site--link {
-	color: $header;
-	text-decoration: none;
-	font-size: $font-size-brand;
-}
 
-.site--name {
-	font-size: $font-size-h2;
-}
+.site__info {
+	.site--name {
+		font-size: $font-size-h2;
+	}
 
-.site--info {
-
-}
-
-.site--beta {
-	color: darken($header, 10%);
+	.site--beta {
+		color: darken($header, 10%);
+	}
+	@media screen and (min-width: 826px) {
+		text-align: center;
+		margin-top: -380px;
+	}
+	// @media screen and (min-width: 1500px) {
+	// 	.site--name {
+	// 		font-size: 1.5 * $font-size-h2;
+	// 	}
+	// 	.site--info {
+	// 		font-size: 1.5 * $font-size-body;
+	// 	}
+	// }
 }
 
 .site--more {

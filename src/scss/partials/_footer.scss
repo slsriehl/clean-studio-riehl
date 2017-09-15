@@ -1,15 +1,19 @@
 .footer {
 	@include flex-row;
+	width: 100%;
 	justify-content: flex-end;
 	align-items: center;
 	background-color: $brand;
+	height: fit-content;
 }
 
 .footer--item {
 	padding: 0.5rem 1rem;
 	text-decoration: none;
 	color: $header;
+	font-size: $font-size-menu;
 	@media screen and (min-width: 1500px) {
+		font-size: 1.25 * $font-size-menu;
 		padding: 1rem 2rem;
 	}
 }

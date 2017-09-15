@@ -1,5 +1,6 @@
 $header: lighten(#F9681F, 20%);
-$brand: desaturate(darken(#0C3C90, 7%), 30%);
+$header-light: lighten($header, 20%);
+$brand: desaturate(lighten(#0C3C90, 10%), 60%);
 $link: $brand;
 $hover: #b3bf80;
 $dark: #333;
