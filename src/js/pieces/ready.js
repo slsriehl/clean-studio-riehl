@@ -24,5 +24,17 @@ document.addEventListener('DOMContentLoaded', function() {
 	});
 	menuOverlay.addEventListener('click', function(event) {
 		toggleMenu();
-	})
+	});
+	var siteImgs = [].slice.call(document.getElementsByClassName('site__img--img'));
+	console.log(siteImgs);
+	for(var i = 0; i < siteImgs.length; i++) {
+		console.log(siteImgs[i]);
+		siteImgs[i].addEventListener('mouseenter', function() {
+			this.parentNode.childNodes[3].style.visibility = 'visible';
+		});
+		siteImgs[i].addEventListener('mouseleave', function() {
+			this.parentNode.childNodes[3].style.visibility = 'hidden';
+		});
+	}
+
 });
