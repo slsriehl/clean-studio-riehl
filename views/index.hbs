@@ -1,5 +1,5 @@
 <div class="section">
-	<div class="about">
+	<div class="about" id="about">
 		<div class="about__cont">
 			<p class="about--p">
 				... is a versatile woman-owned full-stack web development outfit based in Austin, Texas.
@@ -18,7 +18,7 @@
 			</p>
 
 			<h3 class="about--h3">
-				<a href="/mail" class="body--link">
+				<a href="#mail" class="body--link">
 					<i class="fa fa-envelope-o"></i>
 				</a>
 				<span>
@@ -29,7 +29,7 @@
 
 	<!-- / .about -->
 	</div>
-	<div class="section section__sites">
+	<div class="section section__sites" id="full-stack">
 	{{#each fullStackSites}}
 		<div class="site__container">
 			<div class="site__img">
@@ -77,7 +77,7 @@
 			{{/if}}
 	{{/each}}
 	</div>
-	<div class="section section__sites">
+	<div class="section section__sites" id="wordpress">
 	{{#each wordpressSites}}
 		<div class="site__container">
 			<div class="site__img">
@@ -95,4 +95,54 @@
 		</div>
 	{{/each}}
 	</div>
+	<div class="section section__sites" id="mail">
+		<div class="about__cont mail__cont">
+			<h3 class="about--h3" id="replaceOnSubmit">
+				Give us a shout!&nbsp;
+			</h3>
+			<p class="about--p">
+				<span id="hideOnSubmit">You can email us using the form below. </span>Call or text us at <a href="tel:+15129107089" class="body--link">512&nbsp;910&nbsp;7089</a>.
+			</p>
+			<form class="contact__form" id="emailStudioRiehl">
+					<div class="contact__float-label">
+						<input class="contact__input" name="name" type="text" required/>
+						<label for="name">Name</label>
+					</div>
+
+					<div class="contact__float-label">
+						<input class="contact__input" name="email" type="email" required/>
+						<label for="email">Email</label>
+					</div>
+
+				<div class="contact__float-label">
+					<input class="contact__input" name="tel" type="tel" />
+					<label for="tel">Phone (optional)</label>
+				</div>
+
+				<div class="contact__float-label">
+					<input class="contact__input" name="subject" type="text" required/>
+					<label for="subject">Subject</label>
+				</div>
+
+				<div class="contact__float-label">
+					<textarea class="contact__input" name="message" required></textarea>
+					<label for="message">Message</label>
+				</div>
+
+				<div class="contact--captcha">
+					<div class="g-recaptcha captcha" data-sitekey={{recaptchaSiteKey}} style="width: 308px;"></div>
+				</div>
+
+				<div class="contact__button__container">
+					<button type="submit" class="contact__button">
+						Send
+					</button>
+				</div>
+			</form>
+		<!-- /section__text -->
+		</div>
+	</div>
+
+
+
 </div>
