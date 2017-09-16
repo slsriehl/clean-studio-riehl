@@ -11,7 +11,8 @@ const controller = {
 	  res.render('index.hbs', {
 			footerYear: footerYear,
 			fullStackSites: fullStackData,
-			wordpressSites: wordpressData
+			wordpressSites: wordpressData,
+			recaptchaSiteKey: '6LdTLxEUAAAAAK-4MGUh72KoJ2h-e0CTa8giHuWd'
 			// brandSelect: true
 		});
 	},
