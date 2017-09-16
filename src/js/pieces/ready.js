@@ -37,4 +37,24 @@ document.addEventListener('DOMContentLoaded', function() {
 		});
 	}
 
+	var inputs = [].slice.call(document.getElementsByClassName('contact__input'));
+	console.log(inputs);
+	for(var i = 0; i < inputs.length; i++) {
+		inputs[i].addEventListener('blur', function() {
+			if(inputs[i].value) {
+				inputs[i].classList.add('contact__input--filled');
+			} else if(inputs[i].classList.contains('contact__input--filled')) {
+				inputs[i].classList.remove('contact__input--filled');
+			}
+		});
+	}
+
+	var emailForm = document.getElementById('emailStudioRiehl');
+	var hideMe = document.getElementById('hideOnSubmit');
+	var replaceMe = document.getElementById('replaceOnSubmit');
+
+	emailForm.addEventListener('submit', function(event) {
+		submitForm(event, emailForm, hideMe, replaceMe);
+	});
+
 });
