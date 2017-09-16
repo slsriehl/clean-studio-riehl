@@ -42,31 +42,33 @@
 			text-decoration: none;
 			font-size: $font-size-brand;
 		}
-		@media screen and (min-width: 826px) {
-			@include flex-column;
-			@include around-center;
-			border-radius: 50%;
-			visibility: hidden;
-			width: 380px;
-			height: 380px;
-			position: relative;
-			top: -420px;
-			left: 10px;
-			background-color: rgba($brand, 0.9);
-			.site--link {
-				color: $header;
-				font-size: 1.5 * $font-size-brand;
-				line-height: 1;
-				i {
-					line-height: 1;
-				}
-			}
-		}
+		// @media screen and (min-width: 826px) {
+		// 	@include flex-column;
+		// 	@include around-center;
+		// 	border-radius: 50%;
+		// 	visibility: hidden;
+		// 	width: 380px;
+		// 	height: 380px;
+		// 	position: relative;
+		// 	top: -420px;
+		// 	left: 10px;
+		// 	background-color: rgba($brand, 0.9);
+		// 	.site--link {
+		// 		color: $header;
+		// 		font-size: 1.5 * $font-size-brand;
+		// 		line-height: 1;
+		// 		i {
+		// 			line-height: 1;
+		// 		}
+		// 	}
+		// }
 	}
 }
 
 
 .site__info {
+	@include flex-column;
+	@include center-center;
 	.site--name {
 		font-size: $font-size-h2;
 	}
@@ -74,10 +76,10 @@
 	.site--beta {
 		color: darken($header, 10%);
 	}
-	@media screen and (min-width: 826px) {
-		text-align: center;
-		margin-top: -380px;
-	}
+	// @media screen and (min-width: 826px) {
+	// 	text-align: center;
+	// 	margin-top: -380px;
+	// }
 	// @media screen and (min-width: 1500px) {
 	// 	.site--name {
 	// 		font-size: 1.5 * $font-size-h2;
