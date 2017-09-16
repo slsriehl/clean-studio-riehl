@@ -1,0 +1,92 @@
+/* based on https://codepen.io/tonystar/pen/JRLaKw by Anton Staroverov.  See mixins in mixin file */
+/* Default styling
+ * https://github.com/tonystar/float-label-css/blob/master/scss/float-label.scss
+ */
+
+#showOnSubmit {
+	display: none;
+}
+
+.mail__cont {
+	@include flex-column;
+	@include center-center;
+}
+
+.contact__float-label {
+	@include float-label-container;
+	@include float-label;
+	font-size: $font-size-menu;
+
+	textarea.contact__input {
+		height: 30rem;
+		& + label {
+			top: -30rem;
+		}
+		&.contact__input--filled, &:focus {
+			& + label {
+				top: -32rem;
+			}
+		}
+	}
+	.contact__input {
+		@include float-label-input;
+		font-size: inherit;
+		width: 100%;
+		padding: 1rem;
+		color: $dark;
+		background-color: $light;
+		border: 3px solid $brand;
+		border-radius: 5px;
+		font-size: $font-size-menu;
+		font-family: $font-main;
+		&.contact__input--filled, &:focus {
+			@include focused-filled-input;
+			& + label {
+				font-size: $font-size-menu;
+				font-family: $font-main;
+				@include focused-filled-label;
+			}
+		}
+		@include float-label-scaled {
+			top: 0.25rem;
+		}
+	}
+}
+
+.contact__form {
+	padding: 2rem 0 0 0;
+	width: 100%;
+	height: fit-content;
+	@media screen and (min-width: 826px) and (max-width: 1499px) {
+		width: 60%;
+	}
+	@media screen and (min-width: 1500px) {
+		width: 40%;
+	}
+}
+
+.section__form {
+	@include flex-column;
+	@include center-center;
+}
+
+.contact--captcha {
+	@include flex-row;
+	@include center-center;
+	margin-bottom: 1rem;
+}
+
+
+.contact__button__container {
+	width: 100%;
+	@include flex-row;
+	@include end-center;
+}
+.contact__button {
+	font-size: unset;
+	background: $header-light;
+	color: $header;
+	border: 3px solid $header;
+	border-radius: 5px;
+	padding: 1rem;
+}
