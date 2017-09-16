@@ -25,26 +25,26 @@ document.addEventListener('DOMContentLoaded', function() {
 	menuOverlay.addEventListener('click', function(event) {
 		toggleMenu();
 	});
-	var siteImgs = [].slice.call(document.getElementsByClassName('site__img--img'));
-	console.log(siteImgs);
-	for(var i = 0; i < siteImgs.length; i++) {
-		console.log(siteImgs[i]);
-		siteImgs[i].addEventListener('mouseenter', function() {
-			this.parentNode.childNodes[3].style.visibility = 'visible';
-		});
-		siteImgs[i].addEventListener('mouseleave', function() {
-			this.parentNode.childNodes[3].style.visibility = 'hidden';
-		});
-	}
+	// var siteImgs = [].slice.call(document.getElementsByClassName('site__img--img'));
+	// console.log(siteImgs);
+	// for(var i = 0; i < siteImgs.length; i++) {
+	// 	console.log(siteImgs[i]);
+	// 	siteImgs[i].addEventListener('mouseenter', function() {
+	// 		this.parentNode.childNodes[3].style.visibility = 'visible';
+	// 	});
+	// 	siteImgs[i].addEventListener('mouseleave', function() {
+	// 		this.parentNode.childNodes[3].style.visibility = 'hidden';
+	// 	});
+	// }
 
 	var inputs = [].slice.call(document.getElementsByClassName('contact__input'));
 	console.log(inputs);
 	for(var i = 0; i < inputs.length; i++) {
 		inputs[i].addEventListener('blur', function() {
-			if(inputs[i].value) {
-				inputs[i].classList.add('contact__input--filled');
-			} else if(inputs[i].classList.contains('contact__input--filled')) {
-				inputs[i].classList.remove('contact__input--filled');
+			if(this.value) {
+				this.classList.add('contact__input--filled');
+			} else if(this.classList.contains('contact__input--filled')) {
+				this.classList.remove('contact__input--filled');
 			}
 		});
 	}

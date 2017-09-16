@@ -1,6 +1,6 @@
 //xml http request class and make request promise method
 var request = function(method, path, data) {
-	new Promise function(resolve, reject) {
+	new Promise(function(resolve, reject) {
 		var req = new XMLHttpRequest();
 		//req.setRequestHeader "Content-Type", "application/json;charset=UTF-8"
 		req.open(method, path);
@@ -15,5 +15,5 @@ var request = function(method, path, data) {
 			reject(new Error('unknown error'));
 		}
 		req.send(JSON.stringify(data));
-	}
+	});
 }
