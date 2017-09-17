@@ -10,7 +10,7 @@ var isValidValue = function(element) {
 
 //convert the input in the form inputs into a json object
 var formToJson = function(elements) {
-	[].reduce.call(elements, function(data, element) {
+	return [].reduce.call(elements, function(data, element) {
 		if(isValidElement(element) && isValidValue(element)) {
 			data[element.name] = element.value;
 		}
