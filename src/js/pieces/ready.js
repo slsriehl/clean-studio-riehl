@@ -1,12 +1,15 @@
 document.addEventListener('DOMContentLoaded', function() {
+	//pick out most elements for menu toggle
 	var menuToggle = document.getElementById('menuToggle');
 	var headerMenu = document.getElementById('headerMenu');
 	var menuOverlay = document.getElementById('menuOverlay');
+
+	//define menu toggle function
 	var toggleMenu = function() {
 		if(window.getComputedStyle(headerMenu, null).getPropertyValue('visibility') == 'hidden') {
 			//console.log('toggle menu');
-			headerMenu.style.visibility = 'unset';
-			menuOverlay.style.visibility = 'unset';
+			headerMenu.style.visibility = 'visible';
+			menuOverlay.style.visibility = 'visible';
 			menuToggle.style.visibility = 'hidden';
 			headerMenu.style.zIndex = '150';
 			menuOverlay.style.zIndex = '105';
@@ -19,24 +22,26 @@ document.addEventListener('DOMContentLoaded', function() {
 			menuOverlay.style.zIndex = '-1';
 		}
 	}
+	//toggle menu on hamburger click
 	menuToggle.addEventListener('click', function(event) {
 		toggleMenu();
 	});
+	//toggle menu on overlay click
 	menuOverlay.addEventListener('click', function(event) {
 		toggleMenu();
 	});
-	// var siteImgs = [].slice.call(document.getElementsByClassName('site__img--img'));
-	// //console.log(siteImgs);
-	// for(var i = 0; i < siteImgs.length; i++) {
-	// 	//console.log(siteImgs[i]);
-	// 	siteImgs[i].addEventListener('mouseenter', function() {
-	// 		this.parentNode.childNodes[3].style.visibility = 'visible';
-	// 	});
-	// 	siteImgs[i].addEventListener('mouseleave', function() {
-	// 		this.parentNode.childNodes[3].style.visibility = 'hidden';
-	// 	});
-	// }
+	//toggle menu on menu item click
+	//pick out menu items by class
+	var menuItems = [].slice.call(document.getElementsByClassName('header__menu__item'));
+	//loop to add event listeners
+	for(var i = 0; i < menuItems.length; i++) {
+		menuItems[i].addEventListener('click', function(event) {
+			toggleMenu();
+		});
+	}
 
+
+//add classes to inputs to enable floating labels
 	var inputs = [].slice.call(document.getElementsByClassName('contact__input'));
 	//console.log(inputs);
 	for(var i = 0; i < inputs.length; i++) {
