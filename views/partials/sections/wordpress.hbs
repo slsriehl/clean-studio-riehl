@@ -1,5 +1,5 @@
-<div class="section section__sites">
-{{#each sites}}
+<div class="section section__sites" id="wordpress">
+{{#each wordpressSites}}
 	<div class="site__container">
 		<div class="site__img">
 			<img src="{{imgPath}}" class="site__img--img" />
@@ -11,6 +11,9 @@
 		</div>
 		<div class="site__info">
 			<p class="site--name">{{siteName}}</p>
+			<p class="site--info">
+				wordpress
+			</p>
 			<p class="site--info">{{siteYear}}</p>
 		</div>
 	</div>
