@@ -5,6 +5,13 @@ const helpers = require('./helpers');
 const wordpressData = require('../data/wordpress');
 const fullStackData = require('../data/full-stack');
 
+let siteKey;
+if(process.env.SITE_KEY) {
+	siteKey = process.env.SITE_KEY;
+} else {
+	siteKey = require('../config/config').siteKey;
+}
+
 const controller = {
 	renderAbout: (req, res) => {
 		const footerYear = helpers.footerYear();
@@ -12,33 +19,9 @@ const controller = {
 			footerYear: footerYear,
 			fullStackSites: fullStackData,
 			wordpressSites: wordpressData,
-			recaptchaSiteKey: '6LdTLxEUAAAAAK-4MGUh72KoJ2h-e0CTa8giHuWd'
-			// brandSelect: true
+			recaptchaSiteKey: siteKey
 		});
 	},
-	// renderMail: (req, res) => {
-	// 	const footerYear = helpers.footerYear();
-	// 	res.render('mail.hbs', {
-	// 		footerYear: footerYear,
-	// 		mailSelect: true
-	// 	});
-	// },
-	// renderWordpress: (req, res) => {
-	// 	const footerYear = helpers.footerYear();
-	// 	res.render('wordpress.hbs', {
-	// 		sites: wordpressData,
-	// 		footerYear: footerYear,
-	// 		wordpressSelect: true
-	// 	});
-	// },
-	// renderFullStack: (req, res) => {
-	// 	const footerYear = helpers.footerYear();
-	// 	res.render('full-stack.hbs', {
-	// 		sites: fullStackData,
-	// 		footerYear: footerYear,
-	// 		fullStackSelect: true
-	// 	});
-	// },
 
 }
 
