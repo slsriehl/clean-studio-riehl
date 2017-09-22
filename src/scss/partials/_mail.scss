@@ -72,15 +72,16 @@
 
 .contact--captcha {
 	@include flex-row;
-	@include center-center;
-	margin-bottom: 1rem;
+	@include start-center;
+	margin-top: -1rem;
+	margin-bottom: $font-size-menu;
 }
 
 
 .contact__button__container {
 	width: 100%;
 	@include flex-row;
-	@include end-center;
+	@include start-center;
 }
 .contact__button {
 	font-size: unset;
