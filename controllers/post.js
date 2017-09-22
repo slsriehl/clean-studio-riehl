@@ -41,7 +41,7 @@ if(process.env.SEND_HOST) {
 
 let sendPort;
 if(process.env.SEND_PORT) {
-	sendPort = process.env.SEND_PORT;
+	sendPort = parseInt(process.env.SEND_PORT);
 } else {
 	sendPort = config.sendPort;
 }
@@ -62,7 +62,9 @@ if(process.env.SECRET_KEY) {
 
 let sslEmail;
 if(process.env.SSL_EMAIL) {
-	sslEmail = process.env.SSL_EMAIL;
+	if(process.env.SSL_EMAIL == '1') {
+		sslEmail = true;
+	}
 } else {
 	sslEmail = config.sslEmail;
 }
