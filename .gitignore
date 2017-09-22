@@ -2,6 +2,7 @@ node_modules
 .DS_Store
 config
 *.zip
+*.tar.gz
 public/webfonts
 # data
 src/img
