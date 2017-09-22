@@ -86,7 +86,7 @@ gulp.task('concat-js', function() {
 });
 
 gulp.task('minify-css', function() {
-	return gulp.src('./src/css/*.css')
+	return gulp.src('./public/css/styles.css')
 	.pipe(cleanCSS({ compatibility: 'ie8'}))
 	.pipe(rename({ suffix: '.min'}))
 	.pipe(gulp.dest('./public/css'))
@@ -94,7 +94,7 @@ gulp.task('minify-css', function() {
 
 //minify js
 gulp.task('minify-js', function() {
-	return gulp.src('./src/js/*.js')
+	return gulp.src('./public/js/index.js')
 		.pipe(uglify())
 		.pipe(rename({ suffix: '.min' }))
 		.pipe(gulp.dest('./public/js'))
@@ -108,8 +108,8 @@ gulp.task('dev', [/* 'browser-sync', */'compile-concat-scss', 'concat-js'], func
 });
 
 //production task to compile, minify, and reload
-gulp.task('prod', [/* 'browser-sync',*/'compile-concat-scss', 'concat-js', 'minify-js', 'minify-css'], function() {
-		gulp.watch('./src/scss/*/*.scss', ['compile-concat-scss', 'minify-css']);
-		gulp.watch('./src/js/pieces/*.js', ['concat-js', 'minify-js']);
+gulp.task('prod', [/* 'browser-sync',*/'minify-js', 'minify-css'], function() {
+		gulp.watch('./public/css/styles.css', ['minify-css']);
+		gulp.watch('./public/js/index.js', ['minify-js']);
 		//reloadOnChange();
 });
