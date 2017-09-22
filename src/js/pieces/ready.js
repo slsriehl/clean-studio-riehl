@@ -50,11 +50,10 @@ document.addEventListener('DOMContentLoaded', function() {
 	}
 
 	var emailForm = document.getElementById('emailStudioRiehl');
-	var hideMe = document.getElementById('hideOnSubmit');
 	var replaceMe = document.getElementById('replaceOnSubmit');
 
 	emailForm.addEventListener('submit', function(event) {
-		submitForm(event, emailForm, hideMe, replaceMe);
+		submitForm(event, emailForm, replaceMe);
 	});
 
 });

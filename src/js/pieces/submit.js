@@ -1,31 +1,29 @@
 //function to call on submit form
-var submitForm = function(event, el, hideMe, replaceMe) {
+var submitForm = function(event, el, replaceMe) {
 	event.preventDefault();
 	var message;
 	var data = formToJson(event.target.elements);
+	console.log(data);
 	//call make request method promise
-	request('POST', '/mail', data)
+	return request('POST', '/mail', data)
 	.then(function(result) {
 		console.log(result);
-		if(result == 'success sending') {
-			message = 'Your message was successfully sent.';
-		} else if(result == 'captcha fail') {
-			message = "Please check the captcha and try again.";
+		if(result == 'true') {
+			message = 'Your message was successfully sent.  ';
 		} else {
-			message = "Sorry, we couldn't send your message.  Try again later.";
+			message = "Sorry, we couldn't send your message.  Try again later.  ";
 		}
-		renderMessage(el, hideMe, replaceMe, message);
+		renderMessage(el, replaceMe, message);
 	})
 	.catch(function(error) {
-		message = "Sorry, we couldn't send your message.  Try again later.";
-		renderMessage(el, hideMe, replaceMe, message);
+		message = "Sorry, we couldn't send your message.  Try again later.  ";
+		renderMessage(el, replaceMe, message);
 	});
 }
 //render a message
-var renderMessage = function(el, hideMe, replaceMe, message) {
+var renderMessage = function(el, replaceMe, message) {
 	replaceMe.innerHTML = message;
-	hideMe.style.display = 'none';
-	if(message == 'Your message was successfully sent.') {
+	if(message == 'Your message was successfully sent.  ') {
 		console.log('success message');
 		el.style.display = 'none';
 	} else {
