@@ -7,6 +7,7 @@ var cleanCSS = require('gulp-clean-css');
 var rename = require('gulp-rename');
 var concat = require('gulp-concat');
 var uglify = require('gulp-uglify');
+var pump = require('pump');
 
 // Set the banner content
 var banner = ['/*!\n',
@@ -42,33 +43,6 @@ var reloadOnChange = function() {
 	gulp.watch('./src/js/*.js', [reload]);
 }
 
-// gulp.task('nodemon', function () {
-// 	var started = false;
-// 	return nodemon({
-// 		script: 'server.js'
-// 	})
-// 	//.on('start', function () {
-// 	// 	// to avoid nodemon being started multiple times
-// 	// 	// thanks @matthisk
-// 	// 	if (!started) {
-// 	// 		cb();
-// 	// 		started = true;
-// 	// 	}
-// 	// })
-// 	.on('exit', function () {
-// 		process.exit();
-// 	});
-// });
-
-// gulp.task('browser-sync',['nodemon'], function() {
-// 	browserSync.init(null, {
-// 		proxy: "http://localhost:5000",
-// 		files: ["public/**/*.*"],
-// 		browser: "google chrome",
-// 		port: 7000,
-// 	});
-// });
-
 // Compile scss files from /scss into /css
 gulp.task('compile-concat-scss', function() {
 	return gulp.src('./src/scss/*.scss')
@@ -78,6 +52,7 @@ gulp.task('compile-concat-scss', function() {
 		.pipe(gulp.dest('./public/css'))
 });
 
+//concat js
 gulp.task('concat-js', function() {
 	return gulp.src('./src/js/pieces/*.js')
 		.pipe(concat('index.js'))
@@ -85,6 +60,7 @@ gulp.task('concat-js', function() {
 		.pipe(gulp.dest('./public/js'))
 });
 
+//minify-css
 gulp.task('minify-css', function() {
 	return gulp.src('./public/css/styles.css')
 	.pipe(cleanCSS({ compatibility: 'ie8'}))
@@ -93,11 +69,13 @@ gulp.task('minify-css', function() {
 });
 
 //minify js
-gulp.task('minify-js', function() {
-	return gulp.src('./public/js/index.js')
-		.pipe(uglify())
-		.pipe(rename({ suffix: '.min' }))
-		.pipe(gulp.dest('./public/js'))
+gulp.task('minify-js', function(cb) {
+	pump([
+			gulp.src('./public/js/index.js'),
+			uglify(),
+			rename({ suffix: '.min' }),
+			gulp.dest('./public/js')
+	], cb);
 });
 
 // dev task to compile and reload in development
