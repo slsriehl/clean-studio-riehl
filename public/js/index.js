@@ -272,6 +272,7 @@ var renderMessage = function(el, replaceMe, message) {
 	}
 	resetJump();
 	window.location.hash = "\u0023mail";
+	window.scrollTo(0, document.body.scrollHeight);
 }
 
 //menu item reset jump helper/remove event
