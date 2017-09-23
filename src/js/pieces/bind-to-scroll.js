@@ -11,11 +11,7 @@ var onScrollFunction = function(event) {
 	for(var i = 0; i < sectionSites.length; i++) {
 		// in the sections object, create a sub obj for each section and give it an id pair and an offsetTop pair
 		console.log(sectionSites[i].id + ' -- ' + sectionSites[i].offsetTop);
-		if(sectionSites[i].id == '#about') {
-			sections[sectionSites[i].id] = -164;
-		} else {
-			sections[sectionSites[i].id] = sectionSites[i].offsetTop;
-		}
+		sections[sectionSites[i].id] = sectionSites[i].offsetTop;
 	}
 	//the scroll position is where you are on the page vertically
 	var scrollPosition = document.documentElement.scrollTop || document.body.scrollTop;
