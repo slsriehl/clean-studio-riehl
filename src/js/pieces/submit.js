@@ -31,8 +31,9 @@ var renderMessage = function(el, replaceMe, message) {
 		replaceMe.style.color = '#C70039';
 	}
 	resetJump();
+	window.removeEventListener('scroll', onScrollFunction);
 	window.location.hash = "\u0023mail";
-	window.scrollTo(0, document.body.scrollHeight);
+	window.addEventListener('scroll', onScrollFunction);
 }
 
 //menu item reset jump helper/remove event
