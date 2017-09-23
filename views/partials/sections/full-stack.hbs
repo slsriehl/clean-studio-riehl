@@ -26,18 +26,24 @@
 			</div>
 		</div>
 		<div class="site__info">
-			<h2 class="site--name">{{siteName}}</h2>
-			<p class="site--info">
-				{{technologies}}
-			</p>
-			<p class="site--info">
-				{{siteYear}}
-				{{#if beta}}
-					<span class="site--beta">
-						beta
-					</span>
-				{{/if}}
-			</p>
+			<div>
+				<h2 class="site--name site--info">{{siteName}}</h2>
+			</div>
+			<div>
+				<p class="site--info">
+					{{technologies}}
+				</p>
+			</div>
+			<div>
+				<p class="site--info">
+					{{siteYear}}
+					{{#if beta}}
+						<span class="site--beta">
+							beta
+						</span>
+					{{/if}}
+				</p>
+			</div>
 		</div>
 
 		<div class="triangle-border"></div>
@@ -50,5 +56,6 @@
 			</p>
 		</div>
 		{{/if}}
-{{/each}}
+	{{/each}}
+	</div>
 </div>

@@ -1,21 +1,32 @@
-<div class="section section__sites" id="wordpress">
-{{#each wordpressSites}}
-	<div class="site__container">
-		<div class="site__img">
-			<img src="{{imgPath}}" class="site__img--img" />
-			<div class="site__img--overlay">
-				<a class="site--link" href="{{strictUrl}}" target="_blank">
-					go&nbsp;<i class="fa fa-angle-double-right"></i>
-				</a>
+<div id="wordpress" class="sectionTop">
+	<h3 class="site--title">
+		Wordpress
+	</h3>
+	<div class="section">
+		{{#each wordpressSites}}
+			<div class="site__container">
+				<div class="site__img">
+					<img src="{{imgPath}}" class="site__img--img" />
+					<div class="site__img--overlay">
+						<a class="site--link" href="{{strictUrl}}" target="_blank">
+							go&nbsp;<i class="fa fa-angle-double-right"></i>
+						</a>
+					</div>
+				</div>
+				<div class="site__info">
+					<div>
+						<p class="site--name site--info">{{siteName}}</p>
+					</div>
+					<div>
+						<p class="site--info">
+							wordpress
+						</p>
+					</div>
+					<div>
+						<p class="site--info">{{siteYear}}</p>
+					</div>
+				</div>
 			</div>
-		</div>
-		<div class="site__info">
-			<p class="site--name">{{siteName}}</p>
-			<p class="site--info">
-				wordpress
-			</p>
-			<p class="site--info">{{siteYear}}</p>
-		</div>
+		{{/each}}
 	</div>
-{{/each}}
 </div>
