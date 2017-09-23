@@ -2,11 +2,11 @@
 
 
 //++++++ bind and unbind the window scroll with this function ++++++
-var onScrollFunction = function(event) {
+var onScrollFunction = function() {
 	//empty object to push section ids to
 	var sections = {};
 	//pick out the sections of the site that correspond to menu items
-	var sectionSites = [].slice.call(document.getElementsByClassName("section__sites"));
+	var sectionSites = [].slice.call(document.getElementsByClassName("sectionTop"));
 	//loop the sections of the site
 	for(var i = 0; i < sectionSites.length; i++) {
 		// in the sections object, create a sub obj for each section and give it an id pair and an offsetTop pair
