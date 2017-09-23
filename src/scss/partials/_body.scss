@@ -45,16 +45,37 @@ body {
 	}
 }
 
+.section {
+	//box-sizing: content-box;
+	@include flex-wrap;
+	justify-content: center;
+	//align-items: center;
+	@media screen and (min-width: 806px + (11 * $font-size-body)) {
+		justify-content: space-around;
+	}
+}
+
 #about {
-	padding: 2rem 2rem 0 2rem;
+	padding-top: 2rem;
+	@media screen and (min-width: 425px) {
+		padding: 2rem 2rem 0 2rem;
+	}
 	@media screen and (min-width: 1500px) {
 		padding: 4rem 4rem 0 4rem;
 	}
 }
 
 #full-stack, #wordpress, #mail {
-	padding: 8rem 2rem 0 2rem;
+	padding-top: 8rem;
+	@media screen and (min-width: 425px) {
+		padding: 8rem 2rem 0 2rem;
+	}
 	@media screen and (min-width: 1500px) {
 		padding: 10rem 4rem 0 4rem;
 	}
+}
+
+#full-stack, #wordpress {
+	@include flex-column;
+	@include center-center;
 }
