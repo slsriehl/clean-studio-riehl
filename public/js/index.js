@@ -33,7 +33,7 @@ var onScrollFunction = function() {
 	//loop the sections of the site
 	for(var i = 0; i < sectionSites.length; i++) {
 		// in the sections object, create a sub obj for each section and give it an id pair and an offsetTop pair
-		console.log(sectionSites[i].id + ' -- ' + sectionSites[i].offsetTop);
+		//console.log(sectionSites[i].id + ' -- ' + sectionSites[i].offsetTop);
 		sections[sectionSites[i].id] = sectionSites[i].offsetTop;
 	}
 	//the scroll position is where you are on the page vertically
@@ -259,6 +259,7 @@ var renderMessage = function(el, replaceMe, message) {
 	if(message == 'Your message was successfully sent.  ') {
 		//console.log('success message');
 		el.style.display = 'none';
+		replaceMe.style.color = 'unset';
 	} else {
 		//console.log('failed message');
 		replaceMe.style.color = '#C70039';
@@ -266,6 +267,11 @@ var renderMessage = function(el, replaceMe, message) {
 	resetJump();
 	window.removeEventListener('scroll', onScrollFunction);
 	window.location.hash = "\u0023mail";
+	window.addEventListener('scroll', pauseScroll);
+}
+
+var pauseScroll = function() {
+	window.removeEventListener('scroll', pauseScroll);
 	window.addEventListener('scroll', onScrollFunction);
 }
 
