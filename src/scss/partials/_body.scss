@@ -27,12 +27,12 @@ body {
 
 .page-content {
 	width: 100%;
-	position: relative;
-	top: 104px;
+	// position: relative;
+	// top: 104px;
 	//min-height: calc(100vh - 61px);
 	@media screen and (min-width: 1500px) {
 		//min-height: calc(100vh - 88px);
-		top: 164px;
+		// top: 164px;
 	}
 }
 
