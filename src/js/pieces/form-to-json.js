@@ -1,3 +1,6 @@
+
+//++++++ use these functions to convert the form input to json so the xhr request can send it ++++++
+
 //validate the fields sent to form to JSON so they're excluded if blank
 var isValidElement = function(element) {
 	return element.name && element.value;

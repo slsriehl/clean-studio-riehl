@@ -39,12 +39,3 @@ var resetJump = function() {
 	//console.log('reset jump');
 	history.pushState ("", document.title, (window.location.pathname + window.location.search));
 }
-
-// //menu item onclick event callback
-//
-// var goToMenuItems = function(parentEl, overlay, toggle, jumpName) {
-// 	//console.log('go to menu items');
-// 	resetJump();
-// 	//toggleMenu parentEl, overlay, toggle
-// 	window.location.hash = "\u0023" + jumpName;
-// }
