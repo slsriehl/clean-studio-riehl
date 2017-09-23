@@ -25,11 +25,11 @@
 
 
 //++++++ bind and unbind the window scroll with this function ++++++
-var onScrollFunction = function(event) {
+var onScrollFunction = function() {
 	//empty object to push section ids to
 	var sections = {};
 	//pick out the sections of the site that correspond to menu items
-	var sectionSites = [].slice.call(document.getElementsByClassName("section__sites"));
+	var sectionSites = [].slice.call(document.getElementsByClassName("sectionTop"));
 	//loop the sections of the site
 	for(var i = 0; i < sectionSites.length; i++) {
 		// in the sections object, create a sub obj for each section and give it an id pair and an offsetTop pair
@@ -124,85 +124,78 @@ var request = function(method, path, data) {
 document.addEventListener('DOMContentLoaded', function() {
 	//+++++ mobile menu toggle section +++++
 
-	//pick out most elements for menu toggle
+	//pick out elements for menu toggle operations
 	var menuToggle = document.getElementById('menuToggle');
 	var headerMenu = document.getElementById('headerMenu');
 	var menuOverlay = document.getElementById('menuOverlay');
-
-	//define menu toggle function to call onclick of the toggle, the overlay, or a menu item
-	var toggleMenu = function(event) {
-		if(window.getComputedStyle(headerMenu, null).getPropertyValue('visibility') == 'hidden') {
-			//console.log('toggle menu');
-			headerMenu.style.visibility = 'visible';
-			menuOverlay.style.visibility = 'visible';
-			menuToggle.style.visibility = 'hidden';
-			headerMenu.style.zIndex = '150';
-			menuOverlay.style.zIndex = '105';
-		} else {
-			//console.log('toggle no menu');
-			headerMenu.style.visibility = 'hidden';
-			menuOverlay.style.visibility = 'hidden';
-			menuToggle.style.visibility = 'visible';
-			headerMenu.style.zIndex = '-1';
-			menuOverlay.style.zIndex = '-1';
-		}
-	}
-	//toggle menu on hamburger click
-	menuToggle.addEventListener('click', toggleMenu);
-	//toggle menu on overlay click
-	menuOverlay.addEventListener('click', toggleMenu);
-	//toggle menu on menu item click
 	//pick out menu items by class
 	var menuItems = [].slice.call(document.getElementsByClassName('header__menu__item'));
-	//if the document loads in mobile mode, attach event listeners to menuItems
+
+	//create anonymous function that's the same to attach & detach from event listeners
+	var toggleMenuAnon = function(event) {
+		toggleMenu(event, headerMenu, menuToggle, menuOverlay);
+	}
+
+	//+++++ document load condition ++++++
+
 	if(document.documentElement.clientWidth < 826) {
+	//if the document loads in mobile mode
+		//remove scroll highlighting
 		removeHighlighting();
-	//loop to add event listeners
+	//loop menuItems to add menuItems event listeners
 		for(var i = 0; i < menuItems.length; i++) {
 			//add the event listener to toggle the menu closed on item click
-			menuItems[i].addEventListener('click', toggleMenu);
+			menuItems[i].addEventListener('click', toggleMenuAnon);
 		}
+		//add the event listener to toggle menu on hamburger click
+		menuToggle.addEventListener('click', toggleMenuAnon);
+		//add the event listener to toggle menu on overlay click
+		menuOverlay.addEventListener('click', toggleMenuAnon);
 	} else {
-		//if the document loads in desktop mode, bind to scroll
+	//if the document loads in desktop mode
+		//add highlighting
+		addHighlighting();
+		//bind to scroll
 		window.addEventListener('scroll', onScrollFunction);
 	}
 
-	//++++++ on resize, restore proper arrangement for mobile or desktop ++++++
+	//++++++ on resize condition ++++++
 	//if the window size changes
 	window.addEventListener('resize', function(event) {
-		// if the window is desktop
-		if(document.documentElement.clientWidth >= 826) {
-			//bind to scroll and highlight current section
-			addHighlighting();
-			window.addEventListener('scroll', onScrollFunction);
-			//show the headerMenu, hide the overlay and the toggle button, and raise the z-index of the header menu back up
-			headerMenu.style.visibility = 'visible';
-			menuOverlay.style.visibility = 'hidden';
-			menuToggle.style.display = 'none';
-			headerMenu.style.zIndex = '150';
-			menuOverlay.style.zIndex = '-1';
-			//loop to remove event listeners
-			for(var i = 0; i < menuItems.length; i++) {
-				//remove the event listeners that toggle the menu from the menu items
-				menuItems[i].removeEventListener('click', toggleMenu);
-			}
-		} else {
+		if(document.documentElement.clientWidth < 826) {
 		//if it's a mobile screen
+			//hide the menu & overlay, show the toggle
+			showMobile(headerMenu, menuToggle, menuOverlay);
 			//remove scroll highlighting
 			removeHighlighting();
 			//unbind from scroll
 			window.removeEventListener('scroll', onScrollFunction);
-			//hide the menu & overlay, show the toggle
-			headerMenu.style.visibility = 'hidden';
-			menuOverlay.style.visibility = 'hidden';
-			menuToggle.style.display = 'block';
-			headerMenu.style.zIndex = '-1';
-			menuOverlay.style.zIndex = '-1';
-			//loop to add event listeners
+			//loop to add menuItems event listeners
 			for(var i = 0; i < menuItems.length; i++) {
 				//add the event listener to toggle the menu off on click of a menu item
-				menuItems[i].addEventListener('click', toggleMenu);
+				menuItems[i].addEventListener('click', toggleMenuAnon);
 			}
+			//add event listener to toggle menu on hamburger click
+			menuToggle.addEventListener('click', toggleMenuAnon);
+			//add event listener to toggle menu on overlay click
+			menuOverlay.addEventListener('click', toggleMenuAnon);
+		} else {
+		//if it's a desktop screen
+			//show the headerMenu, hide the overlay and the toggle button, and raise the z-index of the header menu back up
+			showDesktop(headerMenu, menuToggle, menuOverlay);
+			//highlight current section
+			addHighlighting();
+			//bind to scroll
+			window.addEventListener('scroll', onScrollFunction);
+			//loop to remove menuItems event listeners
+			for(var i = 0; i < menuItems.length; i++) {
+				//remove the event listeners that toggle the menu from the menu items
+				menuItems[i].removeEventListener('click', toggleMenuAnon);
+			}
+			//remove menuToggle event listener
+			menuToggle.removeEventListener('click', toggleMenuAnon);
+			//remove menuOverlay event listener
+			menuOverlay.removeEventListener('click', toggleMenuAnon);
 		}
 	});
 
@@ -271,12 +264,49 @@ var renderMessage = function(el, replaceMe, message) {
 		replaceMe.style.color = '#C70039';
 	}
 	resetJump();
+	window.removeEventListener('scroll', onScrollFunction);
 	window.location.hash = "\u0023mail";
-	window.scrollTo(0, document.body.scrollHeight);
+	window.addEventListener('scroll', onScrollFunction);
 }
 
 //menu item reset jump helper/remove event
 var resetJump = function() {
 	//console.log('reset jump');
 	history.pushState ("", document.title, (window.location.pathname + window.location.search));
+}
+
+//define menu toggle function to call onclick of the toggle, the overlay, or a menu item
+var toggleMenu = function(event, menu, toggle, overlay) {
+	if(window.getComputedStyle(menu, null).getPropertyValue('visibility') == 'hidden') {
+		//console.log('toggle menu');
+		menu.style.visibility = 'visible';
+		overlay.style.visibility = 'visible';
+		toggle.style.display = 'none';
+		menu.style.zIndex = '150';
+		overlay.style.zIndex = '105';
+	} else {
+		//console.log('toggle no menu');
+		menu.style.visibility = 'hidden';
+		overlay.style.visibility = 'hidden';
+		toggle.style.display = 'block';
+		menu.style.zIndex = '-1';
+		overlay.style.zIndex = '-1';
+	}
+}
+
+//define show mobile for window resize listener
+var showMobile = function(menu, toggle, overlay) {
+	menu.style.visibility = 'hidden';
+	overlay.style.visibility = 'hidden';
+	toggle.style.display = 'block';
+	menu.style.zIndex = '-1';
+	overlay.style.zIndex = '-1';
+}
+//define show desktop for window resize listener
+var showDesktop = function(menu, toggle, overlay) {
+	menu.style.visibility = 'visible';
+	overlay.style.visibility = 'hidden';
+	toggle.style.display = 'none';
+	menu.style.zIndex = '150';
+	overlay.style.zIndex = '-1';
 }
