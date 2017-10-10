@@ -17,7 +17,11 @@
   			</head>
   			<body>
 					<!-- .header -->
-					{{> header}}
+					{{#if specificScripts}}
+						{{> payment-header}}
+					{{else}}
+						{{> header}}
+					{{/if}}
 					<div class="page-content">
 						<!-- body -->
 						{{{body}}}
