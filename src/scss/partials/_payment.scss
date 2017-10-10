@@ -1,0 +1,98 @@
+.payment {
+	@include flex-column;
+	align-items: center;
+	position: relative;
+	top: 104px;
+	padding: $font-size-body * 2;
+	margin: $font-size-body * 2;
+	@media screen and (min-width: 1500px) {
+		top: 164px;
+	}
+}
+
+.payment--warning {
+	color: #C70039;
+}
+
+.payment--h4 {
+	font-size: $font-size-h4;
+	@media screen and (min-width: 1500px) {
+		font-size: 2.5 * $font-size-h4;
+	}
+}
+
+.payment--p {
+	padding-bottom: 0.5rem;
+	@media screen and (min-width: 1500px) {
+		font-size: 2.5 * $font-size-body;
+	}
+}
+
+.payment__details__totals {
+	@include flex-column;
+	align-items: flex-end;
+}
+
+#lineItems, #partialAmount {
+	display: none;
+}
+
+.payment--link {
+	padding-bottom: 0.5rem;
+	color: $brand;
+	text-decoration: underline;
+	@media screen and (min-width: 1500px) {
+		font-size: 2.5 * $font-size-body;
+	}
+}
+
+.payment__partial {
+	@include flex-row;
+	justify-content: flex-start;
+	align-items: center;
+}
+
+.payment--switch {
+	position: relative;
+  display: inline-block;
+  width: 80px;
+  height: 44px;
+	input {
+		display: none;
+		&:checked + .payment--slider {
+		  background-color: $header;
+		}
+		&:focus + .payment--slider {
+		  box-shadow: 0 0 1px $header;
+		}
+		&:checked + .payment--slider:before {
+		  -webkit-transform: translateX(26px);
+		  -ms-transform: translateX(26px);
+		  transform: translateX(26px);
+		}
+	}
+	.payment--slider {
+	  position: absolute;
+	  cursor: pointer;
+	  top: 0;
+	  left: 0;
+	  right: 0;
+	  bottom: 0;
+	  background-color: #fff;
+	  -webkit-transition: .4s;
+	  transition: .4s;
+		border-radius: 34px;
+		&:before {
+		  position: absolute;
+		  content: "";
+		  height: 26px;
+		  width: 26px;
+		  left: 4px;
+		  bottom: 4px;
+		  background-color: $header-light;
+		  -webkit-transition: .4s;
+		  transition: .4s;
+			border-radius: 50%;
+		}
+	}
+}
