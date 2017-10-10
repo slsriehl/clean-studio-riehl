@@ -9,17 +9,8 @@ router.get('/', (req, res) => {
 	controller.renderAbout(req, res);
 });
 
-router.get('/mail', (req, res) => {
-	controller.renderMail(req, res);
-});
-
-router.get('/wordpress', (req, res) => {
-	controller.renderWordpress(req, res);
-
-});
-
-router.get('/full-stack', (req, res) => {
-	controller.renderFullStack(req, res);
-});
+router.get('/pay/:invoice', (req, res) => {
+	controller.renderPayment(req, res);
+})
 
 module.exports = router;

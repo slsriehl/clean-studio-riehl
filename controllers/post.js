@@ -118,6 +118,9 @@ const controller = {
 			console.log(failure);
 			res.send(false);
 		});
+	},
+	takePayment: (req, res) => {
+		
 	}
 }
 
