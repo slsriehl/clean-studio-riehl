@@ -12,7 +12,7 @@ app.use(bodyParser.urlencoded({
   extended: true
 }));
 app.use(bodyParser.json());
-app.use(express.static("./public"));
+app.use(express.static(__dirname + "/public"));
 
 // ++++++ Handlebars templating engine ++++++
 const hbs = require('express-handlebars');

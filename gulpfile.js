@@ -60,6 +60,15 @@ gulp.task('concat-js', function() {
 		.pipe(gulp.dest('./public/js'))
 });
 
+//move pay js
+gulp.task('move-js', function() {
+	return gulp.src('./src/js/pay/*.js')
+		.pipe(concat('pay.js'))
+		.pipe(header(banner))
+		.pipe(gulp.dest('./public/js'))
+});
+
+
 //minify-css
 gulp.task('minify-css', function() {
 	return gulp.src('./public/css/styles.css')
@@ -68,8 +77,8 @@ gulp.task('minify-css', function() {
 	.pipe(gulp.dest('./public/css'))
 });
 
-//minify js
-gulp.task('minify-js', function(cb) {
+//minify index js
+gulp.task('minify-index-js', function(cb) {
 	pump([
 			gulp.src('./public/js/index.js'),
 			uglify(),
@@ -78,16 +87,28 @@ gulp.task('minify-js', function(cb) {
 	], cb);
 });
 
+//minify pay js
+gulp.task('minify-pay-js', function(cb) {
+	pump([
+			gulp.src('./public/js/pay.js'),
+			uglify(),
+			rename({ suffix: '.min' }),
+			gulp.dest('./public/js')
+	], cb);
+});
+
 // dev task to compile and reload in development
-gulp.task('dev', [/* 'browser-sync', */'compile-concat-scss', 'concat-js'], function() {
+gulp.task('dev', [/* 'browser-sync', */'compile-concat-scss', 'concat-js', 'move-js'], function() {
 		gulp.watch('./src/scss/*/*.scss', ['compile-concat-scss']);
+		gulp.watch('./src/js/pay/*.js', ['move-js']);
 		gulp.watch('./src/js/pieces/*.js', ['concat-js']);
 		//reloadOnChange();
 });
 
 //production task to compile, minify, and reload
-gulp.task('prod', [/* 'browser-sync',*/'minify-js', 'minify-css'], function() {
+gulp.task('prod', [/* 'browser-sync',*/'minify-index-js', 'minify-pay-js', 'minify-css'], function() {
 		gulp.watch('./public/css/styles.css', ['minify-css']);
-		gulp.watch('./public/js/index.js', ['minify-js']);
+		gulp.watch('./public/js/index.js', ['minify-index-js']);
+		gulp.watch('./public/js/pay.js', ['minify-pay-js']);
 		//reloadOnChange();
 });
