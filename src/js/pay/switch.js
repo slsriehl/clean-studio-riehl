@@ -1,94 +1,71 @@
-document.addEventListener("DOMContentLoaded", function() {
 
-	var buttonInsert = document.getElementById('amountReplace');
-	var invoiceTotal = document.getElementById('invoiceTotal');
-	var balanceDue = document.getElementById('balanceDue');
-	var totalToCharge = document.getElementById('amount');
-
-//switches
-	var switches = [].slice.call(document.getElementsByClassName('payment--slider'));
-
-	for(var i = 0; i < switches.length; i++) {
-		switches[i].addEventListener('click', function(event) {
-			var childInput = event.target.parentNode.childNodes[1];
-			var hiddenEle = event.target.parentNode.parentNode.parentNode.childNodes[3];
-			var hiddenInput = event.target.parentNode.parentNode.parentNode.childNodes[3].childNodes[1].childNodes[1];
-			console.log(hiddenInput);
-			console.log(hiddenEle);
-			if(childInput.checked == true) {
-				if(hiddenInput) {
-					hiddenInput.value = "";
-					revertButton(buttonInsert, hiddenInput, invoiceTotal, balanceDue, totalToCharge);
-				}
-				childInput.checked = false;
-				hiddenEle.style.display = "none";
-				//childInput.checked = "checked";
-			} else {
-				childInput.checked = true;
-				hiddenEle.style.display = "block";
-			}
-
-		});
-	}
-
-var revertButton = function(buttonSpan, partialInputAmt, invTotal, balDue, amtToCharge) {
-	if(!partialInputAmt.value && !balDue) {
-		console.log('foo');
-		buttonSpan.innerHTML = invTotal.innerHTML;
-		amtToCharge.value = invTotal.innerHTML;
-	} else if (!partialInputAmt.value) {
-		console.log('bar');
-		buttonSpan.innerHTML = balDue.innerHTML;
-		amtToCharge.value = balDue.innerHTML;
+var showSwitchInput = function(thisSwitch) {
+	//pick out additional elements
+	//checkbox element of switch for partial payment
+	var checkbox = thisSwitch.parentNode.childNodes[1];
+	//hidden container of partialInput
+	var partialInputContainer = thisSwitch.parentNode.parentNode.parentNode.childNodes[3];
+	//hidden partialInput
+	var partialInput = partialInputContainer.childNodes[1].childNodes[1];
+	//hide show button field and add correct value to hidden input and charge button
+	if(checkbox.checked == true) {
+		//if the checkbox is already checked
+		if(partialInput) {
+			//clear the partial input
+			partialInput.value = "";
+			//add correct value to hidden input and charge button based on original full values
+			revertButton(partialInput);
+		}
+		//uncheck the checkbox
+		checkbox.checked = false;
+		//hide the container
+		partialInputContainer.style.display = "none";
+	} else {
+		//if the checkbox is not checked
+		//check it
+		checkbox.checked = true;
+		//display the container for the partialInput
+		partialInputContainer.style.display = "block";
 	}
 }
 
-//partial payment amount
-	document.querySelector('body').addEventListener('click', function(event) {
-	  if (event.target == document.getElementById('partial-payment-amount')) {
-	    var partialAmt = document.getElementById('partial-payment-amount');
-			partialAmt.addEventListener('change', function(event) {
-				buttonInsert.innerHTML = event.target.value;
-				totalToCharge.value = event.target.value;
-				revertButton(buttonInsert, event.target, invoiceTotal, balanceDue, totalToCharge);
-			});
-	  }
-	});
-});
+//function to readd the correct value to the hidden input and button in case the partial amount is changed
+var revertButton = function(partialInputAmt) {
+	//call elements for use in event listeners
+	//submit button total span, should equal totalToCharge
+	var buttonSpan = document.getElementById('amountReplace');
+	//invoice total span
+	var invTotal = document.getElementById('invoiceTotal');
+	//balance due span
+	var balDue = document.getElementById('balanceDue');
+	//hidden input for charge amount, should equal buttonInsert
+	var hiddenTotalAmt = document.getElementById('amount');
+	//if the partial input says empty and there is no balance due field (no previous partial payment)
+	if(!partialInputAmt.value && !balDue) {
+		console.log('foo');
+		//change the display button and the hidden total input to the invoice total
+		buttonSpan.innerHTML = invTotal.innerHTML;
+		hiddenTotalAmt.value = invTotal.innerHTML;
+	} else if (!partialInputAmt.value) {
+	//else if the partial input says empty (but there is a balance due field)
+		console.log('bar');
+		//change the display button and the hidden total input to the balance due
+		buttonSpan.innerHTML = balDue.innerHTML;
+		hiddenTotalAmt.value = balDue.innerHTML;
+	}
+}
 
-var stripe = new Stripe('pk_test_7BPc7AnQJn5jjWxU8G9O7DiF');
-//
-//pk_test_7BPc7AnQJn5jjWxU8G9O7DiF
-var elements = stripe.elements();
+var changeListenerForCorrectCharge = function(event) {
+	//call elements for use
+	//submit button total span, should equal totalToCharge
+	var buttonSpan = document.getElementById('amountReplace');
+	//hidden input for charge amount, should equal buttonInsert
+	var hiddenTotalAmt = document.getElementById('amount');
 
-var card = elements.create('card', {
-  'style': {
-    'base': {
-      //'fontFamily': 'HiltonSerif, Arial, sans-serif',
-      'fontSize': '30px',
-      'color': '#444444',
-    },
-    'invalid': {
-      'color': 'red',
-    },
-  }
-});
-
-// Add an instance of the card UI component into the `card-element` <div>
-card.mount('#card-element');
-
-card.addEventListener('change', function(event) {
-  var displayError = document.getElementById('card-errors');
-  if (event.error) {
-    displayError.textContent = event.error.message;
-  } else {
-    displayError.textContent = '';
-  }
-});
-
-// Create a token when the form is submitted.
-var form = document.getElementById('payment-form');
-form.addEventListener('submit', function(e) {
-  e.preventDefault();
-  createToken();
-});
+	//set the submit button value to that of the dynamic element
+	buttonSpan.innerHTML = event.target.value;
+	//set the hidden input value to that of the dynamic element
+	hiddenTotalAmt.value = event.target.value;
+	//change the values if the dynamicElement value is 0
+	revertButton(event.target);
+}
