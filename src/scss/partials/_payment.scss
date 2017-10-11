@@ -1,12 +1,23 @@
 .payment {
-	@include flex-column;
-	align-items: center;
+	//@include flex-column;
+	//align-items: center;
+	display: block;
 	position: relative;
 	top: 104px;
 	padding: $font-size-body * 2;
-	margin: $font-size-body * 2;
+	margin: ($font-size-body * 2) auto;
+	background: $header-light;
+	padding: 1rem;
+	@media screen and (min-width: 600px) and (max-width: 1023px) {
+		padding: 2rem;
+	}
+	@media screen and (min-width: 1024px) and (max-width: 1499px) {
+		width: 80%
+	}
 	@media screen and (min-width: 1500px) {
+		width: 60%;
 		top: 164px;
+		padding: 3rem;
 	}
 }
 
@@ -33,66 +44,139 @@
 	align-items: flex-end;
 }
 
-#lineItems, #partialAmount {
+.payment--hidden {
 	display: none;
+}
+
+.payment__line-items {
+	background: #fff;
+	padding: 2rem;
+	.payment--h4 {
+		font-family: $font-titles;
+		color: $brand;
+	}
+	.payment--p {
+		padding-left: 1rem;
+	}
 }
 
 .payment--link {
 	padding-bottom: 0.5rem;
 	color: $brand;
-	text-decoration: underline;
+	font-family: $font-titles;
+	text-decoration: none;
 	@media screen and (min-width: 1500px) {
 		font-size: 2.5 * $font-size-body;
 	}
 }
 
-.payment__partial {
+.payment--total {
+	font-family: $font-titles;
+	color: $brand;
+}
+
+.payment__switch__container {
 	@include flex-row;
 	justify-content: flex-start;
 	align-items: center;
+	margin: 2rem 0;
+	width: 100%;
+	.payment--p {
+		width: 100%;
+		padding-bottom: 0;
+		line-height: 1;
+	}
 }
 
 .payment--switch {
+	// position: relative;
+  // display: inline-block;
+  // width: 80px;
+  // height: 44px;
+	@include flex-column;
+	justify-content: center;
+	margin-right: 2rem;
+}
+
+.payment--checkbox {
+	height: 0;
+	width: 0;
+	//position: absolute;
+	//margin-left: -9999px;
+	visibility: hidden;
+	top: 20px;
+	left: 20px;
+}
+.payment--slider {
+	cursor: pointer;
+	//text-indent: -9999px;
+	width: 108px;
+	height: 58px;
+	background: $brand;
+	display: block;
+	border-radius: 58px;
 	position: relative;
-  display: inline-block;
-  width: 80px;
-  height: 44px;
-	input {
-		display: none;
-		&:checked + .payment--slider {
-		  background-color: $header;
-		}
-		&:focus + .payment--slider {
-		  box-shadow: 0 0 1px $header;
-		}
-		&:checked + .payment--slider:before {
-		  -webkit-transform: translateX(26px);
-		  -ms-transform: translateX(26px);
-		  transform: translateX(26px);
-		}
+	top: -7px;
+	&:after {
+		content: '';
+		position: absolute;
+		top: 4px;
+		left: 4px;
+		width: 50px;
+		height: 50px;
+		background: $header-light;
+		border-radius: 50px;
+		transition: 0.3s;
 	}
-	.payment--slider {
-	  position: absolute;
-	  cursor: pointer;
-	  top: 0;
-	  left: 0;
-	  right: 0;
-	  bottom: 0;
-	  background-color: #fff;
-	  -webkit-transition: .4s;
-	  transition: .4s;
-		border-radius: 34px;
-		&:before {
-		  position: absolute;
-		  content: "";
-		  height: 26px;
-		  width: 26px;
-		  left: 4px;
-		  bottom: 4px;
-		  background-color: $header-light;
-		  -webkit-transition: .4s;
-		  transition: .4s;
-			border-radius: 50%;
-		}
+}
+.payment--checkbox:checked + .payment--slider {
+	background: $header;
+}
+.payment--checkbox:checked + .payment--slider:after {
+	background: #fff;
+	left: calc(100% - 4px);
+	-ms-transform: translateX(-100%); /* IE 9 */
+	-webkit-transform: translateX(-100%); /* Chrome, Safari, Opera */
+	transform: translateX(-100%);
+}
+.payment--slider:active:after {
+	width: 75px;
+}
+
+.payment__switch__group {
+	@include flex-column;
+	width: 100%;
+}
+
+#payment-form {
+	width: 100%;
+	.payment__group {
+		margin: 1rem 0;
 	}
+}
+
+.payment__input {
+	padding: 1rem;
+	border: 3px solid $brand;
+	background: #fff;
+	border-radius: 5px;
+	width: 100%;
+	font-size: $font-size-menu;
+	margin: 1rem 0;
+	&:focus {
+		border-color: $header;
+		-webkit-box-shadow: 0 0 30px $brand;
+		-moz-box-shadow: 0 0 30px $brand;
+		box-shadow: 0 0 30px $brand;
+	}
+	// &:focus > * {
+	// 	border-color: $header;
+	// 	-webkit-box-shadow: 0 0 30px $brand;
+	// 	-moz-box-shadow: 0 0 30px $brand;
+	// 	box-shadow: 0 0 30px $brand;
+	// }
+}
+
+.text-center {
+	text-align: center;
 }
