@@ -8,7 +8,7 @@ router.post('/mail', (req, res) => {
 	controller.dispatchMail(req, res);
 });
 
-router.post('/pay', (req, res) => {
+router.post('/pay/result', (req, res) => {
 	controller.takePayment(req, res);
 });
 

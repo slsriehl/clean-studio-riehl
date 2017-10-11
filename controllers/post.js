@@ -1,73 +1,46 @@
 const nodemailer = require('nodemailer');
 
+const apiHelpers = require('./api-requests');
+const helpers = require('./helpers');
+
 const Promise = require('bluebird');
 
 const moment = require('moment');
 
 const reCAPTCHA = require('recaptcha2');
 
-let config;
-if(!process.env.CONFIG) {
-	config = require('../config/config');
-}
+const siteKey = process.env.RECAPTCHA_SITE_KEY;
+const secretKey = process.env.RECAPTCHA_SECRET_KEY;
+const stripeSecret = process.env.STRIPE_SECRET_KEY;
+const stripePublic = process.env.STRIPE_PUB_KEY;
 
-let receiveAddr;
-if(process.env.RECEIVE_ADDR) {
-	receiveAddr = process.env.RECEIVE_ADDR;
-} else {
-	receiveAddr = config.receiveAddr;
-}
+const stripe = require('stripe')(stripeSecret);
 
-let sendAddr;
-if(process.env.SEND_ADDR) {
-	sendAddr = process.env.SEND_ADDR;
-} else {
-	sendAddr = config.sendAddr;
-}
-
-let sendPwd;
-if(process.env.SEND_PWD) {
-	sendPwd = process.env.SEND_PWD;
-} else {
-	sendPwd = config.sendPwd;
-}
-
-let sendHost;
-if(process.env.SEND_HOST) {
-	sendHost = process.env.SEND_HOST;
-} else {
-	sendHost = config.sendHost;
-}
-
-let sendPort;
-if(process.env.SEND_PORT) {
-	sendPort = parseInt(process.env.SEND_PORT);
-} else {
-	sendPort = config.sendPort;
-}
-
-let siteKey;
-if(process.env.SITE_KEY) {
-	siteKey = process.env.SITE_KEY;
-} else {
-	siteKey = config.siteKey;
-}
-
-let secretKey;
-if(process.env.SECRET_KEY) {
-	secretKey = process.env.SECRET_KEY;
-} else {
-	secretKey = config.secretKey;
-}
+const receiveAddr = process.env.RECEIVE_ADDR;
+const sendAddr = process.env.SEND_ADDR;
+const sendPwd = process.env.SEND_PWD;
+const sendHost = process.env.SEND_HOST;
+const sendPort = parseInt(process.env.SEND_PORT);
 
 let sslEmail;
-if(process.env.SSL_EMAIL) {
-	if(process.env.SSL_EMAIL == '1') {
-		sslEmail = true;
-	}
+if(process.env.SSL_EMAIL == '1') {
+	sslEmail = true;
 } else {
-	sslEmail = config.sslEmail;
+	sslEmail = false;
 }
+
+//create smtp obj for transport
+const smtpAuth = {
+	host: sendHost,
+	port: sendPort,
+	secure: sslEmail,
+	auth: {
+		user: sendAddr,
+		pass: sendPwd
+	}
+}
+//create smtp transport
+const transporter = Promise.promisifyAll(nodemailer.createTransport(smtpAuth));
 
 const controller = {
 	dispatchMail: (req, res) => {
@@ -87,19 +60,9 @@ const controller = {
 			html: `<h2>name: ${req.body.name}</h2><h2>email: ${req.body.email} </h2><h2>phone: ${req.body.tel}</h2><h2>message</h2>${message}<p>IP address: ${req.ip}</p><p>date: ${moment().utc().format('YYYY-MM-DD HH:mm:ss UTC')}</p>`
 		}
 		console.log(mailOptions);
-		//smtp authentication object
-		const smtpAuth = {
-			host: sendHost,
-			port: sendPort,
-			secure: sslEmail,
-			auth: {
-				user: sendAddr,
-				pass: sendPwd
-			}
-		}
+		//smtp authentication object above
 		console.log(smtpAuth);
-		//create the smtp transport
-		const transporter = Promise.promisifyAll(nodemailer.createTransport(smtpAuth));
+
 		//create the recaptcha object
 		const recaptcha = new reCAPTCHA({
 		  siteKey: siteKey,
@@ -120,7 +83,76 @@ const controller = {
 		});
 	},
 	takePayment: (req, res) => {
-		
+		console.log(req.body);
+		let amount = Math.round(parseFloat(req.body.amount) * 100);
+		let invoiceId = req.body.invoiceId;
+		let invoiceNo = req.body.invoiceNo;
+		let customerId = req.body.customerId;
+		let chargedAmt, chargedCard;
+		console.log(amount);
+		stripe.customers.create({
+			email: req.body.email,
+			source: req.body.stripeToken
+		})
+		.then((customer) => {
+			console.log(customer);
+			return stripe.charges.create({
+				amount,
+				currency: 'usd',
+				customer: customer.id
+			});
+		})
+		.then((charge) => {
+			console.log(charge);
+			if(charge.status == "succeeded") {
+				chargedAmt = parseFloat((parseInt(charge.amount) / 100).toFixed(2));
+				cardCharged = charge.source.last4;
+				let data = {
+					customer_id: customerId,
+					payment_mode: 'stripe',
+					amount: chargedAmt,
+					date: moment().format('YYYY-MM-DD'),
+					invoices: [{
+						invoice_id: invoiceId,
+						amount_applied: chargedAmt
+					}]
+				}
+				console.log(data);
+				return Promise.resolve(apiHelpers.applyToInvoice(data));
+			} else {
+				return Promise.reject({Error: charge.status});
+			}
+		})
+		.then((data) => {
+			let payment = data.data;
+			let balance = payment.payment.payment.invoices[0].balance_amount;
+			console.log(payment);
+			let balanceDue;
+			if(balance) {
+				balanceDue = addZeroes(balance);
+			} else {
+				balanceDue = balance;
+			}
+			if(payment.message == "The payment has been created.") {
+				res.render('confirm-payment.hbs', {
+					balanceDue,
+					invoiceNo,
+					invoiceId,
+					chargedAmt,
+					cardCharged
+				});
+			} else {
+				return Promise.reject({Error: payment.message});
+			}
+		})
+		.catch((error) => {
+			console.log(error);
+			res.render('confirm-payment.hbs', {
+				fail: true,
+				invoiceNo,
+				invoiceId
+			});
+		});
 	}
 }
 
