@@ -1,3 +1,9 @@
+//+++++ development env vars ++++++
+let dotenv;
+if(process.env.NODE_ENV != 'production') {
+	dotenv = require('dotenv').config({BASIC: 'basic'});
+}
+
 // ++++++ dev tools ++++++
 const util = require('util');
 
