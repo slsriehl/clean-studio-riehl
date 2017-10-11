@@ -1,0 +1,11 @@
+<div class="payment section">
+	{{#unless fail}}
+			<h3 class="text-center about--h3">{{invoiceNo}} paid!</h3>
+			<p class="payment--p">Thank you for your payment of {{chargedAmt}} charged to the card ending in {{cardCharged}}!{{#if balanceDue}}  You have {{balanceDue}} left to pay.{{/if}}  We greatly appreciate your business.</p>
+			<a class="payment--link" href="/view/{{invoiceId}}">View or download this invoice</a>
+	{{else}}
+			<h3 class="text-center about--h3">{{invoiceNo}}</h3>
+			<h4 class="payment--h4"><span class="payment--warning">Oh no! Your payment has failed for some reason, but it may have gone through.</span>  Please don't try to charge it again.  Instead <a href="/#mail" >contact Studio Riehl</a> to learn the status of your payment and get a copy of your paid invoice.</h4>
+			<a class="payment--link" href="/view/{{invoiceId}}">View or download this invoice</a>
+	{{/unless}}
+</div>

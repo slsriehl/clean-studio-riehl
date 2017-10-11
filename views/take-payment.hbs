@@ -1,83 +1,105 @@
-<div class="payment">
-	<div>
-		<h3 class="about--h3">Pay {{invoiceNo}}</h3>
-	</div>
-
-	<div class="payment__details">
-		<h4 class="payment--h4">Billed to {{clientName}}</h4>
-		<p class="payment--p {{#if latePayment}}payment--warning{{/if}}">payment due {{paymentInterval}}</p>
-		<div class="payment__details__totals">
-			<p class="payment--p">Subtotal {{subtotal}}</p>
-			<p class="payment--p">State and Local Sales Taxes {{taxAmt}}</p>
-			<p class="payment--p">Total Due {{invoiceTotal}}</p>
-			{{#if paymentMade}}
-				<p class="payment--p">Payment Made {{paymentMade}}</p>
-				<p class="payment--p">Balance Due {{balanceDue}}</p>
-			{{/if}}
+<div class="payment section">
+	{{#if balanceDue}}
+		<div>
+			<h3 class="text-center about--h3">Pay {{invoiceNo}}</h3>
 		</div>
-		<div class="payment__partial">
-			<div class="payment--switch">
-				<input type="checkbox" name="partial-payment" value="1"/>
-				<span class="payment--slider"></span>
+
+		<div class="payment__details">
+			<h4 class="text-center payment--h4">Billed to {{clientName}}</h4>
+			<p class="text-center payment--p {{#if latePayment}}payment--warning{{/if}}">payment due {{paymentInterval}}</p>
+			<div class="payment__details__totals">
+				<p class="payment--p">Subtotal&nbsp;{{subtotal}}</p>
+				<p class="payment--p">State and Local Sales Taxes&nbsp;{{taxAmt}}</p>
+				<p class="payment--p{{#unless paymentMade}} payment--total{{/unless}}">Total Due&nbsp;<span id="invoiceTotal">{{invoiceTotal}}</span></p>
+				{{#if paymentMade}}
+					<p class="payment--p">Payment Made&nbsp;{{paymentMade}}</p>
+					<p class="payment--p payment--total">Balance Due&nbsp;<span id="balanceDue">{{balanceDue}}</span></p>
+				{{/if}}
 			</div>
-			<span class="payment--p">Make Partial Payment</span>
-		</div>
-		<div id="partialAmount" class="payment__partial__amount">
-			<input />
-			<label for="">
-				Partial Payment Amount
-			</label>
-		</div>
-		<div class="payment--switch">
-			<input type="checkbox" name="view-line-items" value="1"/>
-			<span class="payment--slider"></span>
-		</div>
-		<span class="payment--p">View Line Items</span>
-	</div>
-		<div id="lineItems" class="payment__lineitems">
-			{{#each lineItems}}
-				<h4 class="payment--h4">{{name}}</h4>
-				<p class="payment--p">{{description}}</p>
-			{{/each}}
-		</div>
-		<a href="/download/{{invoiceId}}">Download this invoice</a>
-	</div>
+			<div class="payment__switch__group">
+				<div class="payment__switch__container">
+					<div class="payment--switch">
+						<input type="checkbox" class="payment--checkbox" name="partial-payment" />
+						<label for="partial-payment" class="payment--slider"></label>
+					</div>
+					<span class="payment--p">Make Partial Payment</span>
+				</div>
+				<div id="partialAmount" class="payment--hidden">
+					<div class="payment__group">
+						<input class="payment__input" type="number" id="partial-payment-amount" placeholder="Partial Payment Amount" />
+						<!-- <label for="partial-payment-amount">
+							Partial Payment Amount
+						</label> -->
+					</div>
 
-	<form action="/pay" method="post" id="payment-form" class="contact__form">
-		<div class="contact__float-label">
-			<div class="contact__input" id="cardholder-name"></div>
-			<label for="cardholder-name">
-				Name
-			</label>
-		</div>
+				</div>
+			</div>
 
-		<div class="contact__float-label">
-			<div class="contact__input" id="card-element"></div>
-			<label for="card-element">
-				Card Details
-			</label>
-		</div>
-
-		<div class="contact__float-label">
-			<div class="contact__input" id="address-zip"></div>
-			<label for="address-zip">
-				ZIP Code
-			</label>
+			<div class="payment__switch__group">
+				<div class="payment__switch__container">
+					<div class="payment--switch">
+						<input type="checkbox" class="payment--checkbox" name="view-line-items" />
+						<label for="view-line-items" class="payment--slider"></label>
+					</div>
+					<span class="payment--p">View Line Items</span>
+				</div>
+				<div id="lineItems" class="payment__line-items payment--hidden">
+					{{#each lineItems}}
+						<h4 class="payment--h4">{{name}}</h4>
+						<p class="payment--p">{{description}}</p>
+					{{/each}}
+				</div>
+			</div>
+			<a class="payment--link" href="/view/{{invoiceId}}">View or download this invoice</a>
 		</div>
 
-		<!-- Used to display form errors -->
-		<div id="card-errors" role="alert"></div>
+		<form action="/pay/result" method="post" id="payment-form" class="contact__form">
+			<div class="payment__group">
+				<input type="text" class="payment__input" id="cardholder-name" name="name" placeholder="Name" />
+				<!-- <label for="cardholder-name">
+					Name
+				</label> -->
+			</div>
 
-		<p class="about--p">You will have the opportunity to download the fulfilled invoice after paying.</p>
-		<div class="contact__button__container">
-			<button type="submit" class="submit contact__button" value="Submit Payment">
-				<span class="contact__button--span">
-					Pay Studio Riehl $
-					<span id="amountReplace">
-						{{#if balanceDue}}{{balanceDue}}{{else}}{{invoiceTotal}}{{/if}}
+			<div class="payment__group">
+				<input type="email" class="payment__input" name="email" id="email" placeholder="Email" />
+				<!-- <label for="cardholder-name">
+					Name
+				</label> -->
+			</div>
+
+			<div class="payment__group">
+				<div class="payment__input" id="card-element"></div>
+				<!-- <label for="card-element">
+					Card Details
+				</label> -->
+			</div>
+			<input type="hidden" name="amount" id="amount" value="{{#if balanceDue}}{{balanceDue}}{{else}}{{invoiceTotal}}{{/if}}" />
+			<input type="hidden" name="invoiceId" id="invoiceId" value="{{invoiceId}}" />
+			<input type="hidden" name="invoiceNo" id="invoiceNo" value="{{invoiceNo}}" />
+			<input type="hidden" name="customerId" id="customerId" value="{{customerId}}" />
+			<!-- Used to display form errors -->
+			<div id="card-errors" role="alert"></div>
+
+			<p class="about--p">You will have the opportunity to download the fulfilled invoice after paying.</p>
+			<div class="contact__button__container">
+				<button type="submit" class="submit contact__button" value="Submit Payment">
+					<span class="contact__button--span">
+						Pay $
+						<span id="amountReplace">
+							{{#if balanceDue}}{{balanceDue}}{{else}}{{invoiceTotal}}{{/if}}
+						</span>
 					</span>
-				</span>
-			</button>
+				</button>
+			</div>
+		</form>
+	{{else}}
+		<div>
+			<h3 class="about--h3">{{invoiceNo}} billed to {{clientName}}</h3>
 		</div>
-	</form>
+		<div>
+			<h4 class="payment--h4">This invoice has been taken care of.  Thanks for your business!</h4>
+			<a class="payment--link" href="/view/{{invoiceId}}">View or download this invoice</a>
+		</div>
+	{{/if}}
 </div>
