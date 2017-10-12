@@ -22,7 +22,7 @@
 }
 
 .payment--warning {
-	color: #C70039;
+	color: $warning;
 }
 
 .payment--h4 {
@@ -152,6 +152,14 @@
 	width: 100%;
 	.payment__group {
 		margin: 1rem 0;
+	}
+}
+
+#card-errors {
+	color: $warning;
+	padding-bottom: 0.5rem;
+	@media screen and (min-width: 1500px) {
+		font-size: 2.5 * $font-size-body;
 	}
 }
 
