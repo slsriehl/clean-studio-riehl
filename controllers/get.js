@@ -1,11 +1,12 @@
 const util = require('util');
 
+const path = require('path');
+
 const helpers = require('./helpers');
 const apiHelpers = require('./api-requests');
 
 const moment = require('moment');
 const Promise = require('bluebird');
-const fs = Promise.promisifyAll(require('fs'));
 
 const wordpressData = require('../data/wordpress');
 const fullStackData = require('../data/full-stack');
@@ -24,12 +25,12 @@ const controller = {
 			specificScripts
 		});
 	},
-	renderPayment: (req, res, specificScripts) => {
+	renderPayment: (req, res, isPayment, specificScripts) => {
 		console.log(util.inspect(req.params.invoice));
 		console.log(req.params.invoice);
 		console.log(req.params.invoice.toString());
 		//hit zoho api with invoice number and get amount of invoice, name of client, etc
-		apiHelpers.getInvoiceJson(req)
+		apiHelpers.getInvoiceJson(req.params.invoice)
 		.then((data) => {
 			const invoice = data.data;
 			console.log(invoice);
@@ -85,13 +86,14 @@ const controller = {
 					paymentMade,
 					balanceDue,
 					lineItems,
+					isPayment,
 					specificScripts
 				}
 				console.log(invoiceObj);
 				res.render('take-payment.hbs', invoiceObj);
 			} else {
 				console.log('message isnt success');
-				return Promise.reject({Error: invoice.message});
+				return Promise.reject(data);
 			}
 		})
 		.catch((error) => {
@@ -100,16 +102,17 @@ const controller = {
 		});
 	},
 	viewInvoice: (req, res) => {
-		apiHelpers.getInvoicePdf(req)
+		const filename = `inv-studio-riehl.pdf`;
+		var mimetype = helpers.mimeLookup(filename);
+		res.setHeader('Content-disposition', `inline; filename=${filename}`);
+		res.setHeader('Content-type', mimetype);
+		apiHelpers.getInvoicePdf(req.params.invoice)
 		.then((data) => {
-			var stream = fs.readStream(data.data.invoice);
-		  var filename = encodeURIComponent(`inv-studio-riehl.pdf`);
-		  res.setHeader('Content-disposition', 'inline; filename="' + filename + '"');
-		  res.setHeader('Content-type', 'application/pdf');
-		  stream.pipe(res);
+			helpers.pipePdf(res, data.data);
 		})
 		.catch((error) => {
 			console.log(error);
+			helpers.writeToErrorLog(req, error);
 		});
 	},
 }

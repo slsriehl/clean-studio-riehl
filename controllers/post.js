@@ -1,3 +1,5 @@
+const util = require('util');
+
 const nodemailer = require('nodemailer');
 
 const apiHelpers = require('./api-requests');
@@ -42,7 +44,35 @@ const smtpAuth = {
 //create smtp transport
 const transporter = Promise.promisifyAll(nodemailer.createTransport(smtpAuth));
 
+const footerYear = helpers.footerYear();
+
 const controller = {
+	emailAboutPayment: (req, message, customerName, invoiceNo, chargedAmtDisplay, balanceDue) => {
+		console.log(message);
+		let parsedMessage;
+		if(message == "Contact information has been saved." || message == "The payment from the customer has been recorded") {
+			parsedMessage = `Payment successful!  ${customerName} paid you ${chargedAmtDisplay} on ${invoiceNo} today.`
+			if(balanceDue) {
+				parsedMessage += `Their remaining balance due is ${balanceDue}.`;
+			}
+		} else {
+			parsedMessage = `${customerName} tried to pay you ${chargedAmtDisplay} on ${invoiceNo} today, but the promise chain failed.  Check the logs and take appropriate action.`;
+		}
+		const mailOptions = {
+			from: `"studioriehl.com" <${sendAddr}>`,
+			to: receiveAddr,
+			subject: 'payment initiated on studioriehl.com',
+			html: `<p>${parsedMessage}</p><p>date: ${moment().utc().format('YYYY-MM-DD HH:mm:ss UTC')}</p>`
+		}
+		transporter.sendMailAsync(mailOptions)
+		.then((success) => {
+			return Promise.resolve(true);
+		})
+		.catch((failure) => {
+			helpers.writeToErrorLog(req, failure)
+			return Promise.resolve(true);
+		})
+	},
 	dispatchMail: (req, res) => {
 		//req.body
 		console.log(req.body);
@@ -79,23 +109,55 @@ const controller = {
 		})
 		.catch((failure) => {
 			console.log(failure);
+			helpers.writeToErrorLog(req, error);
 			res.send(false);
 		});
 	},
-	takePayment: (req, res) => {
+	takePayment: (req, res, isPayment, specificScripts) => {
 		console.log(req.body);
 		let amount = Math.round(parseFloat(req.body.amount) * 100);
 		let invoiceId = req.body.invoiceId;
 		let invoiceNo = req.body.invoiceNo;
 		let customerId = req.body.customerId;
-		let chargedAmt, chargedCard;
+		let customerName = req.body.customerName;
+		let stripeEmail, chargedAmt, chargedAmtDisplay, chargedCard, zohoCustomStripeId, existingStripeCustomer, balanceDue;
 		console.log(amount);
-		stripe.customers.create({
-			email: req.body.email,
-			source: req.body.stripeToken
+		apiHelpers.getCustomer(customerId)
+		.then((data) => {
+			console.log(data.data);
+			let customer = data.data.contact;
+			if(data.data.message == 'success') {
+				for(let i in customer.contact_persons) {
+					if(customer.contact_persons[i].is_primary_contact) {
+						stripeEmail = customer.contact_persons[i].email;
+					}
+				}
+				if(customer.custom_fields.length) {
+					for(let i in customer.custom_fields) {
+						if(customer.custom_fields[i].label == "Stripe ID") {
+							zohoCustomStripeId = customer.custom_fields[i].value;
+						}
+					}
+				}
+				if(zohoCustomStripeId) {
+					existingStripeCustomer = true;
+					return stripe.customers.retrieve(zohoCustomStripeId)
+				} else {
+					existingStripeCustomer = false;
+					return stripe.customers.create({
+						email: stripeEmail,
+						source: req.body.stripeToken
+					})
+				}
+			} else {
+				return Promise.reject(data);
+			}
 		})
 		.then((customer) => {
 			console.log(customer);
+			if(!existingStripeCustomer) {
+				zohoCustomStripeId = customer.id;
+			}
 			return stripe.charges.create({
 				amount,
 				currency: 'usd',
@@ -105,17 +167,18 @@ const controller = {
 		.then((charge) => {
 			console.log(charge);
 			if(charge.status == "succeeded") {
-				chargedAmt = parseFloat((parseInt(charge.amount) / 100).toFixed(2));
+				chargedAmt = parseFloat(parseInt(charge.amount) / 100);
+				chargedAmtDisplay = `$${helpers.addZeroes(chargedAmt)}`;
 				cardCharged = charge.source.last4;
 				let data = {
 					customer_id: customerId,
-					payment_mode: 'stripe',
+					payment_mode: 'Stripe',
 					amount: chargedAmt,
 					date: moment().format('YYYY-MM-DD'),
 					invoices: [{
 						invoice_id: invoiceId,
 						amount_applied: chargedAmt
-					}]
+					}],
 				}
 				console.log(data);
 				return Promise.resolve(apiHelpers.applyToInvoice(data));
@@ -123,37 +186,88 @@ const controller = {
 				return Promise.reject({Error: charge.status});
 			}
 		})
-		.then((data) => {
-			let payment = data.data;
-			let balance = payment.payment.payment.invoices[0].balance_amount;
-			console.log(payment);
-			let balanceDue;
-			if(balance) {
-				balanceDue = addZeroes(balance);
+		.then((rawData) => {
+			console.log(rawData);
+			let data = JSON.parse(rawData);
+			console.log(data.message);
+			if(data.message == "The payment from the customer has been recorded") {
+				console.log('customer payment recorded');
+				let payment = data.payment;
+				let balance = payment.invoices[0].balance;
+				if(balance) {
+					balanceDue = `$${helpers.addZeroes(balance)}`;
+				} else {
+					balanceDue = balance;
+				}
+			 if(existingStripeCustomer) {
+				 console.log('existingStripeCustomer, should render success');
+				 controller.emailAboutPayment(req, data.message, customerName, invoiceNo, chargedAmtDisplay, balanceDue);
+					res.render('confirm-payment.hbs', {
+						balanceDue,
+						invoiceNo,
+						invoiceId,
+						chargedAmtDisplay,
+						cardCharged,
+						isPayment,
+						specificScripts,
+						footerYear
+					});
+					return Promise.resolve(false);
+				} else {
+					console.log('not existingStripeCustomer, call add StripeToCustomer');
+					const dataObj = {
+						customer_name: customerName,
+						custom_fields: [{
+							value: zohoCustomStripeId,
+							label: "Stripe ID"
+						}]
+					}
+					return Promise.resolve(apiHelpers.addStripeToCustomer(customerId, dataObj));
+				}
 			} else {
-				balanceDue = balance;
+				console.log('data.message didnt match');
+				return Promise.reject({Error: data.message});
 			}
-			if(payment.message == "The payment has been created.") {
-				res.render('confirm-payment.hbs', {
-					balanceDue,
-					invoiceNo,
-					invoiceId,
-					chargedAmt,
-					cardCharged
-				});
+		})
+		.then((rawData) => {
+			console.log(rawData);
+			if(rawData) {
+				let data = JSON.parse(rawData);
+				if(data.message == 'Contact information has been saved.') {
+					controller.emailAboutPayment(req, data.message, customerName, invoiceNo, chargedAmtDisplay, balanceDue);
+					console.log('contact successfully updated, should render success');
+					res.render('confirm-payment.hbs', {
+						balanceDue,
+						invoiceNo,
+						invoiceId,
+						chargedAmtDisplay,
+						cardCharged,
+						isPayment,
+						specificScripts,
+						footerYear
+					});
+					return Promise.resolve(true);
+				} else {
+					return Promise.reject({Error: data.message});
+				}
 			} else {
-				return Promise.reject({Error: payment.message});
+				return Promise.resolve(true);
 			}
 		})
 		.catch((error) => {
 			console.log(error);
+			helpers.writeToErrorLog(req, error);
+			controller.emailAboutPayment(req, 'Payment promise failed.', customerName, invoiceNo, chargedAmtDisplay, balanceDue);
 			res.render('confirm-payment.hbs', {
 				fail: true,
 				invoiceNo,
-				invoiceId
+				invoiceId,
+				isPayment,
+				specificScripts,
+				footerYear
 			});
 		});
-	}
+	},
 }
 
 module.exports = controller;
