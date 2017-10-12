@@ -9,7 +9,9 @@ router.post('/mail', (req, res) => {
 });
 
 router.post('/pay/result', (req, res) => {
-	controller.takePayment(req, res);
+	controller.takePayment(req, res, true, [
+		"https://js.stripe.com/v3/"
+	]);
 });
 
 

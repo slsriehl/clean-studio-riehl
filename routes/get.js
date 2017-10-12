@@ -13,14 +13,16 @@ router.get('/', (req, res) => {
 });
 
 router.get('/pay/:invoice', (req, res) => {
-	controller.renderPayment(req, res, [
+	controller.renderPayment(req, res, true, [
 		"https://js.stripe.com/v3/",
 		"/js/pay.js"
 	]);
 });
 
 router.get('/view/:invoice', (req, res) => {
-	controller.viewInvoice(req, res);
+	controller.viewInvoice(req, res, true, [
+		"https://js.stripe.com/v3/"
+	]);
 });
 
 module.exports = router;
