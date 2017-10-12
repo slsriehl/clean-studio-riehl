@@ -53,15 +53,15 @@ gulp.task('compile-concat-scss', function() {
 });
 
 //concat js
-gulp.task('concat-js', function() {
-	return gulp.src('./src/js/pieces/*.js')
+gulp.task('concat-index-js', function() {
+	return gulp.src('./src/js/public/*.js')
 		.pipe(concat('index.js'))
 		.pipe(header(banner))
 		.pipe(gulp.dest('./public/js'))
 });
 
 //move pay js
-gulp.task('move-js', function() {
+gulp.task('concat-pay-js', function() {
 	return gulp.src('./src/js/pay/*.js')
 		.pipe(concat('pay.js'))
 		.pipe(header(banner))
@@ -98,10 +98,10 @@ gulp.task('minify-pay-js', function(cb) {
 });
 
 // dev task to compile and reload in development
-gulp.task('dev', [/* 'browser-sync', */'compile-concat-scss', 'concat-js', 'move-js'], function() {
+gulp.task('dev', [/* 'browser-sync', */'compile-concat-scss', 'concat-index-js', 'concat-pay-js'], function() {
 		gulp.watch('./src/scss/*/*.scss', ['compile-concat-scss']);
-		gulp.watch('./src/js/pay/*.js', ['move-js']);
-		gulp.watch('./src/js/pieces/*.js', ['concat-js']);
+		gulp.watch('./src/js/pay/*.js', ['concat-pay-js']);
+		gulp.watch('./src/js/index/*.js', ['concat-index-js']);
 		//reloadOnChange();
 });
 
