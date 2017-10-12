@@ -26,7 +26,7 @@
 				</div>
 				<div id="partialAmount" class="payment--hidden">
 					<div class="payment__group">
-						<input class="payment__input" type="number" id="partial-payment-amount" placeholder="Partial Payment Amount" />
+						<input class="payment__input" type="text" id="partial-payment-amount" placeholder="Partial Payment Amount" />
 						<!-- <label for="partial-payment-amount">
 							Partial Payment Amount
 						</label> -->
@@ -62,13 +62,6 @@
 			</div>
 
 			<div class="payment__group">
-				<input type="email" class="payment__input" name="email" id="email" placeholder="Email" />
-				<!-- <label for="cardholder-name">
-					Name
-				</label> -->
-			</div>
-
-			<div class="payment__group">
 				<div class="payment__input" id="card-element"></div>
 				<!-- <label for="card-element">
 					Card Details
@@ -78,10 +71,11 @@
 			<input type="hidden" name="invoiceId" id="invoiceId" value="{{invoiceId}}" />
 			<input type="hidden" name="invoiceNo" id="invoiceNo" value="{{invoiceNo}}" />
 			<input type="hidden" name="customerId" id="customerId" value="{{customerId}}" />
+			<input type="hidden" name="customerName" id="customerName" value="{{clientName}}" />
 			<!-- Used to display form errors -->
 			<div id="card-errors" role="alert"></div>
 
-			<p class="about--p">You will have the opportunity to download the fulfilled invoice after paying.</p>
+			<p class="about--p">You will receive a receipt via email and have the opportunity to download the fulfilled invoice after paying.</p>
 			<div class="contact__button__container">
 				<button type="submit" class="submit contact__button" value="Submit Payment">
 					<span class="contact__button--span">
