@@ -104,10 +104,8 @@ const controller = {
 	viewInvoice: (req, res) => {
 		const filename = `inv-studio-riehl.pdf`;
 		res.setHeader('Content-Type', `application/pdf; name="${filename}"`);
-		res.setHeader('Content-Disposition', `attachment; filename="${filename}"`);
-		res.setHeader('Content-Transfer-Encoding', 'binary');
-		// res.setHeader('Cache-Control', 'public, must-revalidate, max-age=0');
-		// res.setHeader('Pragma', 'public');
+		res.setHeader('Content-Disposition', `inline; filename="${filename}"`);
+		//res.setHeader('Content-Transfer-Encoding', 'binary');
 		apiHelpers.getInvoicePdf(res, req.params.invoice)
 	},
 }

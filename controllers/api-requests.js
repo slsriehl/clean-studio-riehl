@@ -4,6 +4,13 @@ const reqProm = require('request-promise');
 
 const Promise = require('bluebird');
 
+let possiblySecureHttp;
+if(process.env.NODE_ENV != 'production') {
+	possiblySecureHttp = require('https');
+} else {
+	possiblySecureHttp = require('http');
+}
+
 const http = require('http');
 
 const zohoKey = process.env.ZOHO_AUTH_TOKEN;
@@ -24,7 +31,6 @@ const helpers = {
 	},
 	getInvoicePdf: (res, invoice) => {
 		let data = [];
-		let newData;
 		let options = {
 			method: 'GET',
 			hostname: 'books.zoho.com',
@@ -34,8 +40,11 @@ const helpers = {
 				"Content-Type": "application/json;charset=UTF-8"
 			}
 		}
-		const request = http.request(options, (response) => {
+		const request = possiblySecureHttp.request(options, (response) => {
 			console.log(response);
+
+			//response.setEncoding('binary');
+
 			response.on('data', (chunk) => {
 				data.push(chunk);
 			});
@@ -46,7 +55,13 @@ const helpers = {
 				res.setHeader('Content-Length', data.length);
 				res.end(data);
 			});
-		})
+
+			response.on('error', (err) => {
+				console.log("Error during HTTP request");
+				console.log(err.message);
+			});
+
+		});
 
 		request.end();
 	},
