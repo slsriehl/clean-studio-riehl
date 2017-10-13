@@ -103,17 +103,12 @@ const controller = {
 	},
 	viewInvoice: (req, res) => {
 		const filename = `inv-studio-riehl.pdf`;
-		var mimetype = helpers.mimeLookup(filename);
-		res.setHeader('Content-disposition', `inline; filename=${filename}`);
-		res.setHeader('Content-type', mimetype);
-		apiHelpers.getInvoicePdf(req.params.invoice)
-		.then((data) => {
-			helpers.pipePdf(res, data.data);
-		})
-		.catch((error) => {
-			console.log(error);
-			helpers.writeToErrorLog(req, error);
-		});
+		res.setHeader('Content-Type', `application/pdf; name="${filename}"`);
+		res.setHeader('Content-Disposition', `attachment; filename="${filename}"`);
+		res.setHeader('Content-Transfer-Encoding', 'binary');
+		// res.setHeader('Cache-Control', 'public, must-revalidate, max-age=0');
+		// res.setHeader('Pragma', 'public');
+		apiHelpers.getInvoicePdf(res, req.params.invoice)
 	},
 }
 

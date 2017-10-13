@@ -120,7 +120,7 @@ const controller = {
 		let invoiceNo = req.body.invoiceNo;
 		let customerId = req.body.customerId;
 		let customerName = req.body.customerName;
-		let stripeEmail, chargedAmt, chargedAmtDisplay, chargedCard, zohoCustomStripeId, existingStripeCustomer, balanceDue;
+		let stripeEmail, chargedAmt, chargedAmtDisplay, stripeConfirm, zohoCustomStripeId, existingStripeCustomer, balanceDue;
 		console.log(amount);
 		apiHelpers.getCustomer(customerId)
 		.then((data) => {
@@ -167,12 +167,14 @@ const controller = {
 		.then((charge) => {
 			console.log(charge);
 			if(charge.status == "succeeded") {
+				stripeReceiptNo = charge.receipt_number;
 				chargedAmt = parseFloat(parseInt(charge.amount) / 100);
 				chargedAmtDisplay = `$${helpers.addZeroes(chargedAmt)}`;
 				cardCharged = charge.source.last4;
 				let data = {
 					customer_id: customerId,
 					payment_mode: 'Stripe',
+					reference_number: stripeReceiptNo,
 					amount: chargedAmt,
 					date: moment().format('YYYY-MM-DD'),
 					invoices: [{
@@ -208,13 +210,14 @@ const controller = {
 						invoiceId,
 						chargedAmtDisplay,
 						cardCharged,
+						stripeReceiptNo,
 						isPayment,
 						specificScripts,
 						footerYear
 					});
 					return Promise.resolve(false);
 				} else {
-					console.log('not existingStripeCustomer, call add StripeToCustomer');
+					console.log('not existingStripeCustomer, call addStripeToCustomer');
 					const dataObj = {
 						customer_name: customerName,
 						custom_fields: [{
@@ -242,6 +245,7 @@ const controller = {
 						invoiceId,
 						chargedAmtDisplay,
 						cardCharged,
+						stripeReceiptNo,
 						isPayment,
 						specificScripts,
 						footerYear
