@@ -46,9 +46,23 @@ const postRoutes = require('./routes/post');
 app.use(getRoutes);
 app.use(postRoutes);
 
+
+
 // ++++++ SERVER LISTEN ++++++
 const PORT = process.env.PORT || 5000;
 
-app.listen(PORT, function() {
-  console.log("server.js listening to your mom on PORT: " + PORT);
-});
+//use https in development and testing, proxy http for production
+if(process.env.NODE_ENV != 'production') {
+	const fs = require('fs');
+	const https = require('https');
+	const privateKey  = fs.readFileSync('./ssl.key', 'utf8');
+	const certificate = fs.readFileSync('./ssl.crt', 'utf8');
+	const httpsServer = https.createServer({key: privateKey, cert: certificate}, app);
+	httpsServer.listen(PORT, function() {
+		console.log("https development server listening to your mom on PORT: " + PORT);
+	});
+} else {
+	app.listen(PORT, function() {
+	  console.log("http server listening to your mom on PORT: " + PORT);
+	});
+}
