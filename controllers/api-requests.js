@@ -4,12 +4,14 @@ const reqProm = require('request-promise');
 
 const Promise = require('bluebird');
 
-let possiblySecureHttp;
-if(process.env.NODE_ENV != 'production') {
-	possiblySecureHttp = require('https');
-} else {
-	possiblySecureHttp = require('http');
-}
+// let possiblySecureHttp;
+// if(process.env.NODE_ENV != 'production') {
+// 	possiblySecureHttp = require('https');
+// } else {
+// 	possiblySecureHttp = require('http');
+// }
+
+const possiblySecureHttp = require('https');
 
 const http = require('http');
 
