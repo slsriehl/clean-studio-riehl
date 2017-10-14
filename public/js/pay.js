@@ -88,7 +88,7 @@ document.addEventListener("DOMContentLoaded", function() {
 });
 
 //instantiate stripe with public key
-var stripe = new Stripe('pk_test_7BPc7AnQJn5jjWxU8G9O7DiF');
+var stripe = new Stripe('pk_live_4IUfJ0HnfL0HMYA6yUfiH898');
 
 //instantiate elements for stripe input
 var elements = stripe.elements();

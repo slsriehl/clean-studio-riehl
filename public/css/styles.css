@@ -2441,7 +2441,6 @@ html {
 
 body {
   width: 100%;
-  min-height: 100vh;
   font-family: "HiltonSerif";
   font-size: 25px;
   line-height: 1.5;
@@ -2449,7 +2448,8 @@ body {
   color: #333; }
 
 .page-content {
-  width: 100%; }
+  width: 100%;
+  height: fit-content; }
 
 .body--link {
   color: #4e6181;
@@ -2847,7 +2847,7 @@ body {
 .payment {
   display: block;
   position: relative;
-  top: 104px;
+  margin-top: calc(104px + 5rem);
   padding: 50px;
   margin: 50px auto;
   background: #feeee6;
@@ -2861,7 +2861,7 @@ body {
   @media screen and (min-width: 1500px) {
     .payment {
       width: 60%;
-      top: 164px;
+      margin-top: calc(164px + 5rem);
       padding: 3rem; } }
 
 .payment--warning {
@@ -3007,6 +3007,7 @@ body {
   display: flex;
   flex-direction: row;
   width: 100%;
+  position: relative;
   justify-content: flex-end;
   align-items: center;
   background-color: #4e6181;
