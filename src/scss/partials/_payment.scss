@@ -3,7 +3,8 @@
 	//align-items: center;
 	display: block;
 	position: relative;
-	top: 104px;
+	margin-top: calc(104px + 5rem);
+	//margin-bottom: 104px;
 	padding: $font-size-body * 2;
 	margin: ($font-size-body * 2) auto;
 	background: $header-light;
@@ -16,7 +17,8 @@
 	}
 	@media screen and (min-width: 1500px) {
 		width: 60%;
-		top: 164px;
+		margin-top: calc(164px + 5rem);
+		//margin-bottom: 164px;
 		padding: 3rem;
 	}
 }

@@ -1,6 +1,7 @@
 .footer {
 	@include flex-row;
 	width: 100%;
+	position: relative;
 	justify-content: flex-end;
 	align-items: center;
 	background-color: $brand;

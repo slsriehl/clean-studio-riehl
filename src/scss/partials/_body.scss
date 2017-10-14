@@ -12,7 +12,7 @@ html {
 
 body {
 	width: 100%;
-	min-height: 100vh;
+	//min-height: 100vh;
 	//max-height: 100%;
 	//height: fit-content;
 	font-family: $font-main;
@@ -27,13 +27,14 @@ body {
 
 .page-content {
 	width: 100%;
+	height: fit-content;
 	// position: relative;
 	// top: 104px;
 	//min-height: calc(100vh - 61px);
-	@media screen and (min-width: 1500px) {
-		//min-height: calc(100vh - 88px);
-		// top: 164px;
-	}
+	// @media screen and (min-width: 1500px) {
+	// 	//min-height: calc(100vh - 88px);
+	// 	// top: 164px;
+	// }
 }
 
 .body--link {
