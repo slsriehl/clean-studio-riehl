@@ -12,6 +12,20 @@
 	@media screen and (min-width: 1024px) {
 		justify-content: space-between;
 	}
+	&#paymentHeader {
+		justify-content: center
+	}
+	&#mainHeader {
+		.header__brand {
+			@media screen and (min-width: 826px) and (max-width: 1023px) {
+				flex-grow: 1;
+				//padding: 0 2rem 0 0;
+			}
+			@media screen and (min-width: 1500px) {
+				margin-left: 3rem;
+			}
+		}
+	}
 }
 
 .section__filler {
@@ -52,16 +66,6 @@
 	padding: 1rem;
 	@media screen and (min-width: 826px) {
 		display: none;
-	}
-}
-
-.header__brand {
-	@media screen and (min-width: 826px) and (max-width: 1023px) {
-		flex-grow: 1;
-		//padding: 0 2rem 0 0;
-	}
-	@media screen and (min-width: 1500px) {
-		margin-left: 3rem;
 	}
 }
 
@@ -150,28 +154,40 @@
 	}
 }
 
-#paymentHeader {
-	justify-content: center;
-}
 
 .header--inverse {
 	background-color: $brand;
 	//border-bottom: 3px solid $brand;
 	color: $header;
-	& + .triangle {
-		@media screen and (min-width: 826px) {
-			align-self: center;
-			display: block;
-			border-left: 20px solid transparent;
-			border-right: 20px solid transparent;
-			border-top: 10px solid $brand;
-			//border-radius: 5px;
-			position: fixed;
-			top: 102px;
+}
+
+#mainHeader {
+	.header--inverse {
+		& + .triangle {
+			@media screen and (min-width: 826px) {
+				@include triangle-base;
+				@include small-triangle;
+				top: 102px;
+			}
 			@media screen and (min-width: 1500px) {
-				border-left: 35px solid transparent;
-				border-right: 35px solid transparent;
-				border-top: 20px solid $brand;
+				@include large-triangle;
+				top: 162px;
+			}
+		}
+	}
+}
+
+#paymentHeader {
+	.header--inverse {
+		& + .triangle {
+			@include triangle-base;
+			@include small-triangle;
+			top: 70px;
+			@media screen and (min-width: 826px) {
+				top: 102px;
+			}
+			@media screen and (min-width: 1500px) {
+				@include large-triangle;
 				top: 162px;
 			}
 		}

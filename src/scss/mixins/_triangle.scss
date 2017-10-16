@@ -1,0 +1,17 @@
+@mixin triangle-base {
+	align-self: center;
+	display: block;
+	position: fixed;
+}
+
+@mixin small-triangle {
+	border-left: 20px solid transparent;
+	border-right: 20px solid transparent;
+	border-top: 10px solid $brand;
+}
+
+@mixin large-triangle {
+	border-left: 35px solid transparent;
+	border-right: 35px solid transparent;
+	border-top: 20px solid $brand;
+}

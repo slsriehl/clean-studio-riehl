@@ -1,19 +1,19 @@
 .payment {
-	//@include flex-column;
-	//align-items: center;
 	display: block;
 	position: relative;
-	margin-top: calc(104px + 5rem);
-	//margin-bottom: 104px;
+	margin: 0 auto;
+	margin-top: calc(104px + 1rem);
 	padding: $font-size-body * 2;
-	margin: ($font-size-body * 2) auto;
+	//margin: ($font-size-body * 2) auto;
 	background: $header-light;
 	padding: 1rem;
 	@media screen and (min-width: 600px) and (max-width: 1023px) {
 		padding: 2rem;
+		margin-top: calc(104px + 3rem);
 	}
 	@media screen and (min-width: 1024px) and (max-width: 1499px) {
-		width: 80%
+		width: 80%;
+		margin-top: calc(104px + 5rem);
 	}
 	@media screen and (min-width: 1500px) {
 		width: 60%;
@@ -53,6 +53,10 @@
 .payment__line-items {
 	background: #fff;
 	padding: 2rem;
+	margin-bottom: 1rem;
+	@media screen and (min-width: 1500px) {
+		margin-bottom: 2rem;
+	}
 	.payment--h4 {
 		font-family: $font-titles;
 		color: $brand;
@@ -81,8 +85,11 @@
 	@include flex-row;
 	justify-content: flex-start;
 	align-items: center;
-	margin: 2rem 0;
+	margin: 1rem 0;
 	width: 100%;
+	@media screen and (min-width: 1500px) {
+		margin: 2rem 0;
+	}
 	.payment--p {
 		width: 100%;
 		padding-bottom: 0;
@@ -97,7 +104,10 @@
   // height: 44px;
 	@include flex-column;
 	justify-content: center;
-	margin-right: 2rem;
+	margin-right: 1rem;
+	@media screen and (min-width: 1500px) {
+		margin-right: 2rem;
+	}
 }
 
 .payment--checkbox {
@@ -112,23 +122,33 @@
 .payment--slider {
 	cursor: pointer;
 	//text-indent: -9999px;
-	width: 108px;
-	height: 58px;
 	background: $brand;
 	display: block;
-	border-radius: 58px;
 	position: relative;
+	width: 58px;
+	height: 33px;
+	border-radius: 33px;
 	top: -7px;
+	@media screen and (min-width: 1500px) {
+		width: 108px;
+		height: 58px;
+		border-radius: 58px;
+	}
 	&:after {
 		content: '';
 		position: absolute;
 		top: 4px;
 		left: 4px;
-		width: 50px;
-		height: 50px;
+		width: 25px;
+		height: 25px;
 		background: $header-light;
-		border-radius: 50px;
+		border-radius: 25px;
 		transition: 0.3s;
+		@media screen and (min-width: 1500px) {
+			width: 50px;
+			height: 50px;
+			border-radius: 50px;
+		}
 	}
 }
 .payment--checkbox:checked + .payment--slider {
@@ -142,7 +162,10 @@
 	transform: translateX(-100%);
 }
 .payment--slider:active:after {
-	width: 75px;
+	width: 38px;
+	@media screen and (min-width: 1500px) {
+		width: 75px;
+	}
 }
 
 .payment__switch__group {
