@@ -50,7 +50,7 @@
 					{{/each}}
 				</div>
 			</div>
-			<a class="payment--link" href="/view/{{invoiceId}}">View or download this invoice</a>
+			<p class="text-center"><a class="payment--link" href="/view/{{invoiceId}}">View or download this invoice</a></p>
 		</div>
 
 		<form action="/pay/result" method="post" id="payment-form" class="contact__form">
@@ -93,7 +93,7 @@
 		</div>
 		<div>
 			<h4 class="payment--h4">This invoice has been taken care of.  Thanks for your business!</h4>
-			<a class="payment--link" href="/view/{{invoiceId}}">View or download this invoice</a>
+			<p class="text-center"><a class="payment--link" href="/view/{{invoiceId}}">View or download this invoice</a></p>
 		</div>
 	{{/if}}
 </div>

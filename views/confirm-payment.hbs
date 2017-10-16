@@ -2,10 +2,10 @@
 	{{#unless fail}}
 			<h3 class="text-center about--h3">{{invoiceNo}} paid!</h3>
 			<p class="payment--p">Thank you for your payment of {{chargedAmtDisplay}} charged to the card ending in {{cardCharged}}!{{#if balanceDue}}  You have {{balanceDue}} left to pay.{{/if}}  We greatly appreciate your business.  {{#if stripeReceiptNo}} Receipt {{stripeReceiptNo}}{{else}} A receipt{{/if}} is on its way to the email for the primary contact on your account.</p>
-			<a class="payment--link" href="/view/{{invoiceId}}">View or download this invoice</a>
+			<p class="text-center"><a class="payment--link" href="/view/{{invoiceId}}">View or download this invoice</a></p>
 	{{else}}
 			<h3 class="text-center about--h3">{{invoiceNo}}</h3>
 			<h4 class="payment--h4"><span class="payment--warning">Oh no! Your payment has failed for some reason, but it may have gone through.</span>  Please don't try to charge it again.  Instead <a href="/#mail" >contact Studio Riehl</a> to learn the status of your payment and get a receipt and a copy of your paid invoice.</h4>
-			<a class="payment--link" href="/view/{{invoiceId}}">View or download this invoice</a>
+			<p class="text-center"><a class="payment--link" href="/view/{{invoiceId}}">View or download this invoice</a></p>
 	{{/unless}}
 </div>
