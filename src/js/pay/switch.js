@@ -51,7 +51,7 @@ var revertButton = function(partialInputAmt) {
 	var hiddenTotalAmt = document.getElementById('amount');
 	//if the partial input says empty and there is no balance due field (no previous partial payment)
 	if(!partialInputAmt.value) {
-		console.log('foo');
+		//console.log('foo');
 		//change the display button and the hidden total input to the invoice total
 		buttonSpan.textContent = totalDue;
 		hiddenTotalAmt.value = totalDue;
