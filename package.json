@@ -12,6 +12,7 @@
     "start": "node server.js",
     "restart": "nodemon",
     "gulp:dev": "gulp dev",
+		"gulp:prod": "gulp prod",
     "dev": "open 'https://clean-studio-riehl.dev:5000' && nodemon"
   },
   "repository": {
