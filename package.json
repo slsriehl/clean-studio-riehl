@@ -10,8 +10,8 @@
   "scripts": {
     "test": "mocha",
     "start": "node server.js",
-		"restart": "nodemon",
-		"gulp:dev": "gulp dev",
+    "restart": "nodemon",
+    "gulp:dev": "gulp dev",
     "dev": "open 'https://clean-studio-riehl.dev:5000' && nodemon"
   },
   "repository": {

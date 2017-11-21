@@ -15,6 +15,7 @@ const siteKey = process.env.RECAPTCHA_SITE_KEY;
 const secretKey = process.env.RECAPTCHA_SECRET_KEY;
 const stripeSecret = process.env.STRIPE_SECRET_KEY;
 const stripePublic = process.env.STRIPE_PUB_KEY;
+const zohoStripeClearing = process.env.ZOHO_STRIPE_CLEARING;
 
 const stripe = require('stripe')(stripeSecret);
 
@@ -141,7 +142,9 @@ const controller = {
 				}
 				if(zohoCustomStripeId) {
 					existingStripeCustomer = true;
-					return stripe.customers.retrieve(zohoCustomStripeId)
+					return stripe.customers.createSource(zohoCustomStripeId, {
+						source: req.body.stripeToken
+					})
 				} else {
 					existingStripeCustomer = false;
 					return stripe.customers.create({
@@ -161,7 +164,8 @@ const controller = {
 			return stripe.charges.create({
 				amount,
 				currency: 'usd',
-				customer: customer.id
+				customer: zohoCustomStripeId,
+				description: `Studio Riehl - ${invoiceNo}`
 			});
 		})
 		.then((charge) => {
@@ -169,10 +173,14 @@ const controller = {
 			if(charge.status == "succeeded") {
 				stripeReceiptNo = charge.receipt_number;
 				chargedAmt = parseFloat(parseInt(charge.amount) / 100);
+				bankCharges = (chargedAmt * 0.029) + 0.30;
 				chargedAmtDisplay = `$${helpers.addZeroes(chargedAmt)}`;
 				cardCharged = charge.source.last4;
 				let data = {
 					customer_id: customerId,
+					account_id: zohoStripeClearing,
+					invoice_id: invoiceId,
+					bank_charges: bankCharges,
 					payment_mode: 'Stripe',
 					reference_number: stripeReceiptNo,
 					amount: chargedAmt,
