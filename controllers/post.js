@@ -173,7 +173,7 @@ const controller = {
 			if(charge.status == "succeeded") {
 				stripeReceiptNo = charge.receipt_number;
 				chargedAmt = parseFloat(parseInt(charge.amount) / 100);
-				bankCharges = (chargedAmt * 0.029) + 0.30;
+				bankCharges = Math.ceil(((chargedAmt * 0.029) + 0.30)*100)/100;
 				chargedAmtDisplay = `$${helpers.addZeroes(chargedAmt)}`;
 				cardCharged = charge.source.last4;
 				let data = {
