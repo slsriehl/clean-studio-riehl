@@ -157,16 +157,23 @@ const controller = {
 			}
 		})
 		.then((customer) => {
+			let source;
 			console.log(customer);
-			if(!existingStripeCustomer) {
-				zohoCustomStripeId = customer.id;
-			}
-			return stripe.charges.create({
+			let chargeObj = {
 				amount,
 				currency: 'usd',
-				customer: zohoCustomStripeId,
 				description: `Studio Riehl - ${invoiceNo}`
-			});
+			};
+			if(!existingStripeCustomer) {
+				//source will be built into the customer
+				chargeObj.customer = customer.id;
+				zohoCustomStripeId = customer.id;
+			} else {
+				//if called createSource (customer already exists), the id from the promise obj will be the new source and will need to be specified to avoid charging the default method on the customer
+				chargeObj.customer = zohoCustomStripeId;
+				chargeObj.source = customer.id;
+			}
+			return stripe.charges.create(chargeObj);
 		})
 		.then((charge) => {
 			console.log(charge);
